@@ -23,13 +23,13 @@ import sys
 import time
 import numpy as np
 
-from pyraf import iraf
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging
+
 import spectools as st
 from spectools import SALTSpecError
-import saltstat as stats
+import pysalt.lib.saltstat as stats
 
 from PySpectrograph.Spectra import apext
 from PySpectrograph.Utilities.fit import interfit
@@ -177,10 +177,3 @@ def fitsky(xarr, data, var_arr, function='polynomial', order=2, thresh=3):
 
 
 # main code
-
-parfile = iraf.osfn("saltspec$specsky.par")
-t = iraf.IrafTaskFactory(
-    taskname="specsky",
-    value=parfile,
-    function=specsky,
-    pkgname='saltspec')

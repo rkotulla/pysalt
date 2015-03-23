@@ -24,14 +24,13 @@ import sys
 import time
 import numpy as np
 
-from pyraf import iraf
-import saltprint
-import saltio
-import saltkey
-import saltsafekey
-import saltsafeio
-from saltsafelog import logging
-from salterror import SaltError, SaltIOError
+import pysalt.lib.saltprint as saltprint
+import pysalt.lib.saltio as saltio
+import pysalt.lib.saltkey as saltkey
+import pysalt.lib.saltsafekey as saltsafekey
+import pysalt.lib.saltsafeio as saltsafeio
+from pysalt.lib.saltsafelog import logging
+from pysalt.lib.salterror import SaltError, SaltIOError
 
 
 from PySpectrograph.Spectra import apext

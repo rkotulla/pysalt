@@ -20,11 +20,12 @@ import numpy as np
 from scipy import interpolate as scint
 from scipy.ndimage.filters import gaussian_filter1d
 from scipy.optimize import minimize
-from pyraf import iraf
-import saltsafeio as saltio
-from salterror import SaltError
-from saltfit import interfit
-import WavelengthSolution
+
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.salterror import SaltError
+from pysalt.lib.saltfit import interfit
+
+import WavelengthSolution as WavelengthSolution
 
 from PySpectrograph.Spectra import Spectrum, apext, detectlines
 

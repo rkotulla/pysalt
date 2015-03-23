@@ -1,7 +1,7 @@
 
 import numpy as np
 
-from saltfit import interfit
+from pysalt.lib.saltfit import interfit
 from PySpectrograph.WavelengthSolution.ModelSolution import ModelSolution
 
 

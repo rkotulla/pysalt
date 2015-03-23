@@ -36,10 +36,10 @@ import scipy.ndimage.filters
 import scipy.interpolate as si
 import scipy.signal
 from spectools import SALTSpecError
-import saltimagetools
+from pysalt.lib import saltimagetools
 from xml.dom import minidom
 
-from slitmask import SlitMask
+from pysalt.proptools.slitmask import SlitMask
 
 nullfmt = NullFormatter()
 

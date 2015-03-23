@@ -15,16 +15,14 @@ import os
 import pyfits
 import numpy as np
 
-from pyraf import iraf
-from iraf import pysalt
-
-import saltsafeio as saltio
-import saltsafekey as saltkey
-from saltsafelog import logging, SaltLog
+import pysalt.lib.saltsafeio as saltio
+import pysalt.lib.saltsafekey as saltkey
+from pysalt.lib.saltsafelog import logging, SaltLog
 
 
 from specidentify import identify
 import spectools as st
+
 from PySpectrograph.WavelengthSolution import WavelengthSolution
 
 
@@ -188,10 +186,3 @@ def zeroshift(data, xarr, nws, blank=0, inttype='interp'):
             right=blank)
     return data
 
-if not iraf.deftask('specselfid'):
-    parfile = iraf.osfn("saltspec$specselfid.par")
-    t = iraf.IrafTaskFactory(
-        taskname="specselfid",
-        value=parfile,
-        function=specselfid,
-        pkgname='saltspec')

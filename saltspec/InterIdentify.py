@@ -34,17 +34,15 @@ import sys
 import copy
 import numpy as np
 import pyfits
-from pyraf import iraf
-from pyraf.iraf import pysalt
 
 # Gui library imports
 from PyQt4 import QtGui, QtCore
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg
 
 # Salt imports
-import saltsafeio
-from saltgui import ImageDisplay, MplCanvas
-from salterror import SaltIOError
+from pysalt.lib import saltsafeio
+from pysalt.lib.saltgui import ImageDisplay, MplCanvas
+from pysalt.lib.salterror import SaltIOError
 
 from PySpectrograph.Spectra import Spectrum, apext
 

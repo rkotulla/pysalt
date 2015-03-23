@@ -24,11 +24,9 @@ Author                 Version      Date
 from __future__ import with_statement
 
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging
 import os
 import string
 import sys
@@ -141,10 +139,3 @@ def calc_wavesol(infiles):
 
 # -----------------------------------------------------------
 # main code
-
-parfile = iraf.osfn("saltspec$specreduce.par")
-t = iraf.IrafTaskFactory(
-    taskname="specreduce",
-    value=parfile,
-    function=specreduce,
-    pkgname='saltspec')

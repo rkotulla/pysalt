@@ -28,11 +28,11 @@ import math
 import time
 import numpy as np
 
-from pyraf import iraf
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging
-from salterror import SaltError, SaltIOError
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging
+from pysalt.lib.salterror import SaltError, SaltIOError
+
 from scipy import ndimage as nd
 
 import spectools as st
@@ -180,10 +180,3 @@ def fit_response(x, y, order=2, conv=1e-2, niter=20):
 
 
 # main code
-
-parfile = iraf.osfn("saltspec$specslitnormalize.par")
-t = iraf.IrafTaskFactory(
-    taskname="specslitnormalize",
-    value=parfile,
-    function=specslitnormalize,
-    pkgname='saltspec')

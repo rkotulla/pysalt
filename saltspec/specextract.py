@@ -25,10 +25,9 @@ import time
 import numpy as np
 import pyfits
 
-from pyraf import iraf
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging
 import spectools as st
 from spectools import SALTSpecError
 
@@ -260,10 +259,3 @@ def write_extract_fits(ofile, ap_list, clobber=False):
     return
 
 # main code
-
-parfile = iraf.osfn("saltspec$specextract.par")
-t = iraf.IrafTaskFactory(
-    taskname="specextract",
-    value=parfile,
-    function=specextract,
-    pkgname='saltspec')

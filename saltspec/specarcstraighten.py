@@ -28,11 +28,10 @@ import math
 import time
 import numpy as np
 
-from pyraf import iraf
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging
-from salterror import SaltError, SaltIOError
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging
+from pysalt.lib.salterror import SaltError, SaltIOError
 from scipy import ndimage as nd
 
 from PySpectrograph.WavelengthSolution import WavelengthSolution
@@ -256,10 +255,3 @@ def writeIS(ImageSolution, outfile, dateobs=None, utctime=None, instrume=None,
 
 
 # main code
-
-parfile = iraf.osfn("saltspec$specarcstraighten.par")
-t = iraf.IrafTaskFactory(
-    taskname="specarcstraighten",
-    value=parfile,
-    function=specarcstraighten,
-    pkgname='saltspec')

@@ -28,16 +28,16 @@ import pyfits
 
 from matplotlib.pyplot import *
 
-from pyraf import iraf
-import saltstat
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging
+import pysalt.lib.saltstat as saltstat
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging
+
 import spectools as st
 from spectools import SALTSpecError
 
 from PySpectrograph.Spectra import Spectrum
-from saltfit import interfit
+from pysalt.lib.saltfit import interfit
 
 from pylab import *
 
@@ -161,6 +161,3 @@ def sensfunc(obs_spectra, std_spectra, ext_spectra, airmass, exptime):
 
 
 # main code
-parfile = iraf.osfn("saltspec$specsens.par")
-t = iraf.IrafTaskFactory(
-    taskname="specsens", value=parfile, function=specsens, pkgname='saltspec')

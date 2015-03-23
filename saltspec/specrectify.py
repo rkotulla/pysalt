@@ -46,10 +46,9 @@ import math
 import datetime
 import numpy as np
 
-from pyraf import iraf
-import saltsafekey as saltkey
-import saltsafeio
-from saltsafelog import logging, SaltLog
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltsafeio
+from pysalt.lib.saltsafelog import logging, SaltLog
 
 from PySpectrograph.Models import RSSModel
 
@@ -690,10 +689,3 @@ def subtracttime(d1, d2):
 
 
 # main code
-
-parfile = iraf.osfn("saltspec$specrectify.par")
-t = iraf.IrafTaskFactory(
-    taskname="specrectify",
-    value=parfile,
-    function=specrectify,
-    pkgname='saltspec')

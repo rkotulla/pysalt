@@ -16,11 +16,9 @@ a variance from to the data
 from __future__ import with_statement
 
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging
 import os
 import string
 import sys
@@ -191,10 +189,3 @@ def createvariance(inhdu, sci_ext, var_ext):
 
 # -----------------------------------------------------------
 # main code
-
-parfile = iraf.osfn("saltspec$specprepare.par")
-t = iraf.IrafTaskFactory(
-    taskname="specprepare",
-    value=parfile,
-    function=specprepare,
-    pkgname='saltspec')

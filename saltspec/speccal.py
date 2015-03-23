@@ -27,11 +27,10 @@ import time
 import numpy as np
 import pyfits
 
-from pyraf import iraf
-import saltstat
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging
+import pysalt.lib.saltstat as saltstat
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging
 import spectools as st
 from spectools import SALTSpecError
 
@@ -141,10 +140,3 @@ def calfunc(obs_spectra, std_spectra, ext_spectra,
 
 
 # main code
-if not iraf.deftask('speccal'):
-    parfile = iraf.osfn("saltspec$speccal.par")
-    t = iraf.IrafTaskFactory(
-        taskname="speccal",
-        value=parfile,
-        function=speccal,
-        pkgname='saltspec')

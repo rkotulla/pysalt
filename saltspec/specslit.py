@@ -36,11 +36,9 @@ import numpy as np
 
 import pyfits
 
-from pyraf import iraf
-
-import saltsafeio as saltio
-import saltsafekey as saltkey
-from saltsafelog import logging
+import pysalt.lib.saltsafeio as saltio
+import pysalt.lib.saltsafekey as saltkey
+from pysalt.lib.saltsafelog import logging
 
 import mostools as mt
 from spectools import SALTSpecError
@@ -347,9 +345,3 @@ def read_slits_from_fits(simg):
 
     return order, slit_positions
 
-
-# main code
-
-parfile = iraf.osfn("saltspec$specslit.par")
-t = iraf.IrafTaskFactory(taskname="specslit", value=parfile, function=specslit,
-                         pkgname='saltspec')
