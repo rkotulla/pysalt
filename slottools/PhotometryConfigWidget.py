@@ -49,9 +49,9 @@ from matplotlib.figure import Figure
 from matplotlib.patches import CirclePolygon, Rectangle
 
 # Salt imports
-import saltsafeio
-from salterror import SaltError, SaltIOError
-from saltimagetools import find_object, zscale
+from pysalt.lib import saltsafeio
+from pysalt.lib.salterror import SaltError, SaltIOError
+from pysalt.lib.saltimagetools import find_object, zscale
 
 
 class PhotometryConfigWidget(QtGui.QWidget):

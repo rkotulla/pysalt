@@ -35,10 +35,9 @@
 # Ensure python 2.5 compatibility
 from __future__ import with_statement
 
-from pyraf import iraf
-import saltprint, saltsafeio, saltstat
-from salterror import SaltError
-from saltstat import median_image
+from pysalt.lib import saltprint, saltsafeio, saltstat
+from pysalt.lib.salterror import SaltError
+from pysalt.lib.saltstat import median_image
 import numpy as np
 
 def subbackground(image, sig, nbin, order, iter, type):

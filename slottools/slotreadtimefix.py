@@ -50,15 +50,12 @@ import os
 import sys
 import time, datetime
 
-from pyraf import iraf
-from iraf import pysalt
-
-import saltsafekey as saltkey
-import saltsafeio as saltio
-import salttime
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib import salttime
 import slottool
-from saltsafelog import logging, history
-from salterror import SaltError, SaltIOError
+from pysalt.lib.saltsafelog import logging, history
+from pysalt.lib.salterror import SaltError, SaltIOError
 
 
 debug=True
@@ -153,6 +150,3 @@ def readtimefix(hdu, dsteps=7, transtime=4e-3):
 
 # -----------------------------------------------------------
 # main code
-
-parfile = iraf.osfn("slottools$slotreadtimefix.par")
-t = iraf.IrafTaskFactory(taskname="slotreadtimefix",value=parfile,function=slotreadtimefix,pkgname='slottools')

@@ -39,19 +39,17 @@ from __future__ import with_statement
 import sys
 import os
 import pyfits
-from pyraf import iraf
-from pyraf.iraf import pysalt
 
 # Gui library imports
 from PyQt4 import QtGui, QtCore
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg
 
 # Salt imports
-import saltsafeio
-from saltsafelog import logging
-from saltgui import ImageDisplay
+from pysalt.lib import saltsafeio
+from pysalt.lib.saltsafelog import logging
+from pysalt.lib.saltgui import ImageDisplay
 from PhotometryConfigWidget import PhotometryConfigWidget
-from salterror import SaltIOError
+from pysalt.lib.salterror import SaltIOError
 
 debug=True
 
@@ -171,7 +169,4 @@ def slotpreview(images,outfile,ampperccd=2,ignorexp=6,recenter_radius=5,
 
 # -----------------------------------------------------------
 # main code 
-
-parfile=iraf.osfn("slottools$slotpreview.par") 
-t=iraf.IrafTaskFactory(taskname="slotpreview",value=parfile,function=slotpreview,pkgname='slottools')
 

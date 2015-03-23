@@ -40,13 +40,12 @@ from __future__ import with_statement
 
 import os
 import sys
-from pyraf import iraf
-from pyraf.iraf import pysalt
-import saltsafekey as saltkey
-import saltsafeio as saltio
+
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
 from slotbackground import subbackground
-from saltsafelog import logging
-from salterror import SaltIOError
+from pysalt.lib.saltsafelog import logging
+from pysalt.lib.salterror import SaltIOError
 import pyfits
 
 debug=True
@@ -213,6 +212,3 @@ def slotback(images,outfits,extension,imgtype='image',subbacktype='median',
     
 # -----------------------------------------------------------
 # main code
-
-parfile = iraf.osfn("slottools$slotback.par")
-t = iraf.IrafTaskFactory(taskname="slotback",value=parfile,function=slotback,pkgname='slottools')

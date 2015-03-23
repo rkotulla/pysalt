@@ -71,14 +71,12 @@ import sys
 import numpy as np
 import pyfits
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-import saltsafekey
-import saltsafeio
+from pysalt.lib import saltsafekey
+from pysalt.lib import saltsafeio
 import slottool
 from slotbackground import subbackground
-from saltsafelog import logging
-from salterror import SaltError, SaltIOError
+from pysalt.lib.saltsafelog import logging
+from pysalt.lib.salterror import SaltError, SaltIOError
 
 debug=True
 
@@ -404,6 +402,3 @@ def slotphot(images,outfile,srcfile,newfits=None,phottype='square',
 
 # -----------------------------------------------------------
 # main code
-
-parfile = iraf.osfn("slottools$slotphot.par")
-t = iraf.IrafTaskFactory(taskname="slotphot",value=parfile,function=slotphot,pkgname='slottools')

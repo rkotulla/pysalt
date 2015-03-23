@@ -48,9 +48,7 @@ from __future__ import with_statement
 import time, math
 import numpy as np
 import scipy as sp
-from pyraf import iraf
-from pyraf.iraf import pysalt
-import saltprint, salttime
+from pysalt.lib import saltprint, salttime
 import slottool as st
 
 import Tkinter as Tk
@@ -62,12 +60,12 @@ from PyQt4 import QtGui, QtCore
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg
 
 # Salt imports
-from saltgui import ImageDisplay, MplCanvas
-from salterror import SaltIOError
+from pysalt.lib.saltgui import ImageDisplay, MplCanvas
+from pysalt.lib.salterror import SaltIOError
 
-import saltsafeio as saltio
-import saltsafekey as saltkey
-from saltsafelog import logging
+import pysalt.lib.saltsafeio as saltio
+import pysalt.lib.saltsafekey as saltkey
+from pysalt.lib.saltsafelog import logging
 
 from SlotViewWindow import SlotViewWindow
 
@@ -146,6 +144,3 @@ def slotview(newfits,indata , fileout, srcfile, fps=10.0, phottype='square', sig
 
 # -----------------------------------------------------------
 # main code
-
-parfile = iraf.osfn("slottools$slotview.par")
-t = iraf.IrafTaskFactory(taskname="slotview",value=parfile,function=slotview, pkgname='slottools')

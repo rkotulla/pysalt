@@ -39,12 +39,11 @@ TODO--
 # Ensure python 2.5 compatibility
 from __future__ import with_statement
 
-from pyraf import iraf
-import saltsafekey as saltkey
-import saltsafeio as saltio
-import salttime
-import saltstat
-from salterror import SaltError, SaltIOError
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib import salttime
+from pysalt.lib import saltstat
+from pysalt.lib.salterror import SaltError, SaltIOError
 
 import numpy as np
 

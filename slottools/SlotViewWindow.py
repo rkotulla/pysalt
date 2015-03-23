@@ -51,8 +51,6 @@ from __future__ import with_statement
 import os, sys, time
 import numpy as np
 import pyfits
-from pyraf import iraf
-from pyraf.iraf import pysalt
 
 # Gui library imports
 from PyQt4 import QtGui, QtCore
@@ -61,9 +59,9 @@ from matplotlib.figure import Figure
 
 
 # Salt imports
-import saltsafeio
-from saltgui import ImageDisplay, MplCanvas
-from salterror import SaltError, SaltIOError
+from pysalt.lib import saltsafeio
+from pysalt.lib.saltgui import ImageDisplay, MplCanvas
+from pysalt.lib.salterror import SaltError, SaltIOError
 
 #slottools
 import slottool as st

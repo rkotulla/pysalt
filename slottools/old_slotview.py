@@ -41,8 +41,7 @@ from __future__ import with_statement
 import time, math
 import numpy as np
 import scipy as sp
-from pyraf import iraf
-from pyraf.iraf import pysalt
+
 import saltprint, salttime
 import slottool as st
 
@@ -885,6 +884,3 @@ class makeplotdata(QtGui.QMainWindow):
 
 # -----------------------------------------------------------
 # main code
-
-parfile = iraf.osfn("slottools$slotview.par")
-t = iraf.IrafTaskFactory(taskname="slotview",value=parfile,function=slotview, pkgname='slottools')

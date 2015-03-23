@@ -58,15 +58,15 @@ import os
 import sys
 import time
 import re
-from pyraf import iraf
-import saltsafekey
-import saltsafeio
-import salttime
+
+from pysalt.lib import saltsafekey
+from pysalt.lib import saltsafeio
+from pysalt.lib import salttime
 import slottool
 import pyfits
 import numpy as np
-from saltsafelog import logging 
-from salterror import SaltError, SaltIOError
+from pysalt.lib.saltsafelog import logging 
+from pysalt.lib.salterror import SaltError, SaltIOError
 
 # Make sure the plotting functions work with an older version of matplotlib
 try:
@@ -453,6 +453,3 @@ def ntime_func(dt, t_e):
 
 # -----------------------------------------------------------
 # main code
-
-parfile = iraf.osfn("slottools$slotutcfix.par")
-t = iraf.IrafTaskFactory(taskname="slotutcfix",value=parfile,function=slotutcfix,pkgname='slottools')

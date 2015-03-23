@@ -38,19 +38,16 @@ It will be able to handle multiple images in a single FITS file and will also up
 # Ensure python 2.5 compatibility
 from __future__ import with_statement
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-
-import saltsafekey
-import saltsafeio
-import saltstring
-import salttran
+from pysalt.lib import saltsafekey
+from pysalt.lib import saltsafeio
+from pysalt.lib import saltstring
+from pysalt.lib import salttran
 import os
 import time
 import numpy as np
 import pyfits
-from saltsafelog import logging, history
-from salterror import SaltIOError, SaltError
+from pysalt.lib.saltsafelog import logging, history
+from pysalt.lib.salterror import SaltIOError, SaltError
 
 debug=True
 
@@ -267,6 +264,3 @@ def addhousekeeping(struct, outhdu, outfile):
 
 # -----------------------------------------------------------
 # main code
-
-parfile = iraf.osfn("slottools$slotmerge.par")
-t = iraf.IrafTaskFactory(taskname="slotmerge",value=parfile,function=slotmerge, pkgname='slottools')
