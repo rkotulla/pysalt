@@ -50,15 +50,13 @@ from __future__ import with_statement
 
 import numpy as np 
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
 import os, string, sys, glob, pyfits, time
 
 from PyQt4 import QtCore, QtGui
 from pySlitMask import SlitMaskGui
-from saltsafelog import logging, history
+from pysalt.lib.saltsafelog import logging, history
 
-from salterror import SaltError    
+from pysalt.lib.salterror import SaltError    
 
 debug=True
 
@@ -76,8 +74,3 @@ def masktool(catalog='', image='', logfile='salt.log', verbose=True):
 
          
 
-# -----------------------------------------------------------
-# main code
-
-parfile = iraf.osfn("proptools$masktool.par")
-t = iraf.IrafTaskFactory(taskname="masktool",value=parfile,function=masktool, pkgname='proptools')
