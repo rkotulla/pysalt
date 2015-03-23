@@ -54,15 +54,14 @@ Updates
 from __future__ import with_statement
 
 import time, numpy
-from pyraf import iraf
 
 from scipy.ndimage.filters import median_filter
 
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging, history
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging, history
 
-from salterror import SaltError
+from pysalt.lib.salterror import SaltError
 
 debug=True
 
@@ -133,8 +132,3 @@ def illum_cor(struct,mbox):
 
     return struct
 
-# -----------------------------------------------------------
-# main code
-if not iraf.deftask('saltillum'):
-   parfile = iraf.osfn("saltred$saltillum.par")
-   t = iraf.IrafTaskFactory(taskname="saltillum",value=parfile,function=saltillum, pkgname='saltred')

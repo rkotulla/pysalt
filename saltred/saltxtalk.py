@@ -64,13 +64,12 @@ Todo
 from __future__ import with_statement
 
 import numpy as np
-from pyraf import iraf
 
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging, history
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging, history
 
-from salterror import SaltError    
+from pysalt.lib.salterror import SaltError    
 
 debug=True
 
@@ -207,8 +206,3 @@ def xtalk(struct,xcoeff,namps=2, log=None,verbose=False):
 
     return struct
 
-# -----------------------------------------------------------
-# main code
-if not iraf.deftask('saltxtalk'):
-   parfile = iraf.osfn("saltred$saltxtalk.par")
-   t = iraf.IrafTaskFactory(taskname="saltxtalk",value=parfile,function=saltxtalk, pkgname='saltred')

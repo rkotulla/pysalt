@@ -26,17 +26,16 @@ import time
 import numpy
 from scipy import ndimage as nd
 import pyfits
-from pyraf import iraf
 
 from math import cos, sin, pi
 from scipy.ndimage import geometric_transform
 
-import saltsafekey as saltkey
-import saltsafeio as saltio
-import saltsafestring as saltstring
-from saltsafelog import logging, history
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+import pysalt.lib.saltsafestring as saltstring
+from pysalt.lib.saltsafelog import logging, history
 
-from salterror import SaltError
+from pysalt.lib.salterror import SaltError
 
 debug = True
 
@@ -297,6 +296,11 @@ def make_mosaic(struct, gap, xshift, yshift, rotation, interp_type='linear',
     else:
         tranfile = [''] * int(nsciext / 2 + 1)
         tranhdu = [0] * int(nsciext / 2 + 1)
+
+    #
+    # This command actually uses IRAF, so we need to import it now
+    #
+    from pyraf import iraf
 
     # this is hardwired for SALT where the second CCD is considered the
     # fiducial
@@ -633,12 +637,3 @@ def tran_func(a, xshift, yshift, xmag, ymag, xrot, yrot):
     return xtran, ytran
 
 
-# -----------------------------------------------------------
-# main code
-if not iraf.deftask('saltmosaic'):
-    parfile = iraf.osfn("saltred$saltmosaic.par")
-    t = iraf.IrafTaskFactory(
-        taskname="saltmosaic",
-        value=parfile,
-        function=saltmosaic,
-        pkgname='saltred')

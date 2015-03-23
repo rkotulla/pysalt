@@ -28,13 +28,12 @@ Updates
 from __future__ import with_statement
 
 import time, numpy
-from pyraf import iraf
 
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging, history
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging, history
 
-from salterror import SaltError
+from pysalt.lib.salterror import SaltError
 
 debug=True
 
@@ -120,9 +119,3 @@ def arith(struct, op, opstruct, is_image, divzero):
 
    return struct
             
-# -----------------------------------------------------------
-# main code
-
-if not iraf.deftask('saltarith'):
-   parfile = iraf.osfn("saltred$saltarith.par")
-   t = iraf.IrafTaskFactory(taskname="saltarith",value=parfile,function=saltarith, pkgname='saltred')

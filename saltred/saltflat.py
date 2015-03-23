@@ -55,13 +55,12 @@ Updates
 from __future__ import with_statement
 
 import time, numpy
-from pyraf import iraf
 
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging, history
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging, history
 
-from salterror import SaltError
+from pysalt.lib.salterror import SaltError
 
 debug=True
 
@@ -220,8 +219,3 @@ def flat(struct,fstruct):
 
     return struct
 
-# -----------------------------------------------------------
-# main code
-if not iraf.deftask('saltflat'):
-   parfile = iraf.osfn("saltred$saltflat.par")
-   t = iraf.IrafTaskFactory(taskname="saltflat",value=parfile,function=saltflat, pkgname='saltred')

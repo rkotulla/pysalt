@@ -64,14 +64,13 @@ try:
 except:
    mp=None
 
-from pyraf import iraf
+import pysalt.lib.saltstat as saltstat
+import pysalt.lib.salttran as salttran
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
 
-import saltstat, salttran
-import saltsafekey as saltkey
-import saltsafeio as saltio
-
-from salterror import SaltError
-from saltsafelog import logging, history
+from pysalt.lib.salterror import SaltError
+from pysalt.lib.saltsafelog import logging, history
 
 
 #from scipy.signal import fftconvolve as conv2d
@@ -560,8 +559,3 @@ def crgrow(crarr, grad=3):
 # Function to calculate the sigma at each pixel
 
 
-# -----------------------------------------------------------
-# main code
-if not iraf.deftask('saltcrclean'):
-   parfile = iraf.osfn("saltred$saltcrclean.par")
-   t = iraf.IrafTaskFactory(taskname="saltcrclean",value=parfile,function=saltcrclean, pkgname='saltred')

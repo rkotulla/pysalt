@@ -43,15 +43,13 @@ from __future__ import with_statement
 
 import numpy as np 
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
 import os, string, sys, glob, pyfits, time
 
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging, history
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging, history
 
-from salterror import SaltError    
+from pysalt.lib.salterror import SaltError    
 
 debug=True
 
@@ -226,8 +224,3 @@ def createbadpixel(inhdu, bphdu, sci_ext, bp_ext):
 
 
 
-# -----------------------------------------------------------
-# main code
-if not iraf.deftask('saltprepare'):
-   parfile = iraf.osfn("saltred$saltprepare.par")
-   t = iraf.IrafTaskFactory(taskname="saltprepare",value=parfile,function=saltprepare, pkgname='saltred')

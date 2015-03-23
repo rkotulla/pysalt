@@ -28,16 +28,15 @@ Updates
 from __future__ import with_statement
 
 import time, numpy
-from pyraf import iraf
 
 from scipy.ndimage.filters import median_filter
 
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging, history
-from saltfit import *
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging, history
+from pysalt.lib.saltfit import *
 
-from salterror import SaltError
+from pysalt.lib.salterror import SaltError
 
 debug=True
 
@@ -114,8 +113,3 @@ def surface_fit(struct,order=3, mask=True, minlevel=0):
 
     return struct
 
-# -----------------------------------------------------------
-# main code
-if not iraf.deftask('saltsurface'):
-   parfile = iraf.osfn("saltred$saltsurface.par")
-   t = iraf.IrafTaskFactory(taskname="saltsurface",value=parfile,function=saltsurface, pkgname='saltred')

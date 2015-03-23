@@ -60,15 +60,14 @@
 
 from __future__ import with_statement
 
-from pyraf import iraf
 import os, glob, time, pyfits
 
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging
 
 
-from salterror import SaltError, SaltIOError
+from pysalt.lib.salterror import SaltError, SaltIOError
 
 
 # -----------------------------------------------------------
@@ -225,9 +224,3 @@ def getkey(struct,keyword,default,warn=True, log=None):
 
    return value
 
-
-# -----------------------------------------------------------
-# main code
-if not iraf.deftask('saltobslog'):
-   parfile = iraf.osfn("saltred$saltobslog.par")
-   t = iraf.IrafTaskFactory(taskname="saltobslog",value=parfile,function=saltobslog, pkgname='saltred')

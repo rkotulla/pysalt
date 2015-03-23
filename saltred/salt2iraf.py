@@ -20,14 +20,12 @@ are ready to work with basic IRAF tasks
 from __future__ import with_statement
 
 from astropy.io import fits
-from pyraf import iraf
-from pyraf.iraf import pysalt
 
 # Salt imports
-import saltsafeio as saltio
-from saltsafelog import logging
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging
 
-from salterror import SaltError
+from pysalt.lib.salterror import SaltError
 
 debug=True
 
@@ -77,9 +75,3 @@ def convertsalt(img, oimg, ext=1, clobber=True):
    #write the data out
    saltio.writefits(odu, oimg, clobber=clobber)
 
-# -----------------------------------------------------------
-# main code
-
-if not iraf.deftask('salt2iraf'):
-   parfile = iraf.osfn("saltred$salt2iraf.par")
-   t = iraf.IrafTaskFactory(taskname="salt2iraf",value=parfile,function=salt2iraf, pkgname='saltred')

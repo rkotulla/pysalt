@@ -82,13 +82,11 @@ need to be finalized
 
 from __future__ import with_statement
 
-from pyraf import iraf
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging, history
 
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging, history
-
-from salterror import SaltError    
+from pysalt.lib.salterror import SaltError    
 
 debug=True
 
@@ -283,8 +281,3 @@ def get_values(dblist, gainset, rospeed, amp):
                   
    return rdnoise, gain
 
-# -----------------------------------------------------------
-# main code
-if not iraf.deftask('saltgain'):
-   parfile = iraf.osfn("saltred$saltgain.par")
-   t = iraf.IrafTaskFactory(taskname="saltgain",value=parfile,function=saltgain, pkgname='saltred')

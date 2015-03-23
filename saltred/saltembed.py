@@ -55,15 +55,13 @@ from __future__ import with_statement
 
 import numpy as np 
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
 import os, string, sys, glob, pyfits, time
 
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging, history
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging, history
 
-from salterror import SaltError    
+from pysalt.lib.salterror import SaltError    
 
 debug=True
 
@@ -171,9 +169,3 @@ def embedimage(struct, nccd=2, namps=2, nwindows=1):
     #return the new extension
     return outstruct
 
-# -----------------------------------------------------------
-# main code
-
-if not iraf.deftask('saltembed'):
-    parfile = iraf.osfn("saltred$saltembed.par")
-    t =  iraf.IrafTaskFactory(taskname="saltembed",value=parfile,function=saltembed, pkgname='saltred')

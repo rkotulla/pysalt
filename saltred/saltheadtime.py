@@ -36,15 +36,13 @@ import os
 
 # Pyraf modules
 import pyfits
-from pyraf import iraf 
-from pyraf.iraf import pysalt
 
 
 # Project modules
-import saltsafeio
-from salttime import convertUTtoJDUTC, convertUTtoJD,convertUTtoMJD,convertUTtoHJD,convertUTtoBJD
-from saltsafelog import logging
-from salterror import SaltError, SaltIOError
+import pysalt.lib.saltsafeio as saltsafeio
+from pysalt.lib.salttime import convertUTtoJDUTC, convertUTtoJD,convertUTtoMJD,convertUTtoHJD,convertUTtoBJD
+from pysalt.lib.saltsafelog import logging
+from pysalt.lib.salterror import SaltError, SaltIOError
 
 # start main code
 #-------------------------------------------------------------------------------
@@ -157,8 +155,3 @@ def saltheadtime(images,timetype,writetoheader,clobber,logfile,verbose,debug):
                     filetowrite.flush()
                 filetowrite.close()
 
-# -----------------------------------------------------------
-# end main code 
-if not iraf.deftask('saltheadtime'):
-   parfile = iraf.osfn("saltred$saltheadtime.par") 
-   t =iraf.IrafTaskFactory(taskname="saltheadtime",value=parfile,function=saltheadtime,pkgname='saltred')

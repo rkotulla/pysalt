@@ -62,9 +62,6 @@ import sys,glob, os, shutil, time
 import numpy as np
 import pyfits
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-
 from saltobslog import obslog, createobslogfits
 from saltprepare import prepare
 from saltgain import gain
@@ -74,12 +71,12 @@ from saltflat import flat
 from saltcombine import saltcombine 
 from saltmosaic import saltmosaic
 
-import saltsafestring as saltstring
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging, history
+import pysalt.lib.saltsafestring as saltstring
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging, history
 
-from salterror import SaltError
+from pysalt.lib.salterror import SaltError
 
 debug=True
 
@@ -470,9 +467,3 @@ def createmasterflatname(infiles, flatkeys):
     return flatname
 
 
-# -----------------------------------------------------------
-# main code
-
-if not iraf.deftask('saltclean'):
-   parfile = iraf.osfn("saltred$saltclean.par")
-   t = iraf.IrafTaskFactory(taskname="saltclean",value=parfile,function=saltclean, pkgname='saltred')

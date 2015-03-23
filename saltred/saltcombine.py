@@ -36,13 +36,12 @@ from __future__ import with_statement
 import os
 import numpy as np
 import pyfits
-from pyraf import iraf 
 
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging, history
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging, history
 
-from salterror import SaltError
+from pysalt.lib.salterror import SaltError
 
 import gc
 debug=True
@@ -380,8 +379,3 @@ def CombineArray(arr, method='average', ivar=None, bpm=None):
        msg='%s is not a method for combining arrays' % method
        raise SaltError(msg)
 
-# -----------------------------------------------------------
-# main code 
-if not iraf.deftask('saltcombine'):
-   parfile = iraf.osfn("saltred$saltcombine.par") 
-   t = iraf.IrafTaskFactory(taskname="saltcombine",value=parfile,function=saltcombine, pkgname='saltred')

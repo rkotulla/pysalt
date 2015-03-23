@@ -55,15 +55,14 @@
 from __future__ import with_statement
 
 import os, string, sys, glob, pyfits, time
-from pyraf import iraf
-from pyraf.iraf import pysalt
 import numpy as np
-import saltstat, saltfit
+import pysalt.lib.saltstat as saltstat
+import pysalt.lib.saltfit as saltfit
 
-import saltsafeio as saltio
-import saltsafekey as saltkey
-from salterror import SaltError, SaltIOError
-from saltsafelog import logging, history
+import pysalt.lib.saltsafeio as saltio
+import pysalt.lib.saltsafekey as saltkey
+from pysalt.lib.salterror import SaltError, SaltIOError
+from pysalt.lib.saltsafelog import logging, history
 
 debug=True
 
@@ -329,9 +328,3 @@ def bias(struct,subover=True,trim=True, subbias=False, bstruct=None,
 
    return struct
 
-# -----------------------------------------------------------
-# main code
-
-if not iraf.deftask('saltbias'):
-  parfile = iraf.osfn("saltred$saltbias.par")
-  t = iraf.IrafTaskFactory(taskname="saltbias",value=parfile,function=saltbias, pkgname='saltred')

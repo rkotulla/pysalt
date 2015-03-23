@@ -45,15 +45,13 @@ Updates
 
 """
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
 import os, time
 
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging, history
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging, history
 
-from salterror import SaltError
+from pysalt.lib.salterror import SaltError
 
 debug=True
 
@@ -318,8 +316,3 @@ def slot(struct,infile,dbspeed,dbrate,dbgain,dbnoise,dbbias,dbamp,xcoeff,gaindb,
 
     return struct, status
 
-# -----------------------------------------------------------
-# main code
-if not iraf.deftask('saltslot'):
-   parfile = iraf.osfn("saltred$saltslot.par")
-   t = iraf.IrafTaskFactory(taskname="saltslot",value=parfile,function=saltslot, pkgname='saltred')
