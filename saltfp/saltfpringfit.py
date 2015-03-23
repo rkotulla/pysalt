@@ -52,18 +52,16 @@ import math
 import numpy as np
 import scipy.ndimage as nd
 
-from pyraf import iraf 
-from pyraf.iraf import pysalt
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging
-from saltstat import iterstat
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging
+from pysalt.lib.saltstat import iterstat
 
 
 from display import display
 from PySpectrograph.Spectra import findobj
 
-from salterror import SaltError
+from pysalt.lib.salterror import SaltError
 
 from FPRing import FPRing
 
@@ -259,8 +257,3 @@ def findrings(data, thresh=5, niter=5, minsize=10):
  
     return ring_list
 
-# -----------------------------------------------------------
-# main code 
-
-parfile = iraf.osfn("saltfp$saltfpringfit.par") 
-t = iraf.IrafTaskFactory(taskname="saltfpringfit",value=parfile,function=saltfpringfit, pkgname='saltfp')

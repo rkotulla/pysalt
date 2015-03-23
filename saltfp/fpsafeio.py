@@ -36,7 +36,7 @@ Some calls to FP IO functions should go through this module.
 
 """
 
-from salterror import SaltIOError
+from pysalt.lib.salterror import SaltIOError
 from time import strftime
 import pyfits
 import numpy as np

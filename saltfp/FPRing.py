@@ -1,7 +1,7 @@
 
 import math
 import numpy as np
-from saltfit import Parameter, fit
+from pysalt.lib.saltfit import Parameter, fit
 from scipy import optimize
 
 class FPRing:

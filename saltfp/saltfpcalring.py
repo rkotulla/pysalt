@@ -53,12 +53,10 @@ import sys
 import numpy as np
 #import pyfits
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-import saltsafekey as saltkey
-import saltsafeio as saltio
-import salttime
-from saltsafelog import logging
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+import pysalt.lib.salttime as salttime
+from pysalt.lib.saltsafelog import logging
 
 from fptools import findrings, findcenter
 from FPRing import ringfit
@@ -152,8 +150,3 @@ def make_calring(hdu, method=None, thresh=5, niter=3, conv=0.05, minsize=10, axc
    return ring.xc, ring.yc, ring.prad, ring.prad_err, etz, utctime
   
 
-# -----------------------------------------------------------
-# main code
-
-parfile = iraf.osfn("saltfp$saltfpcalring.par")
-t = iraf.IrafTaskFactory(taskname="saltfpcalring",value=parfile,function=saltfpcalring,pkgname='saltfp')

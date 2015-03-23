@@ -47,18 +47,20 @@ import sys
 import numpy as np
 #import pyfits
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-import saltsafekey
-import saltsafeio
-import fpsafeio
-from saltsafelog import logging
-from salterror import SaltIOError
+import pysalt.lib.saltsafekey as saltsafekey
+import pysalt.lib.saltsafeio as saltsafeio
+import fpsafeio as fpsafeio
+from pysalt.lib.saltsafelog import logging
+from pysalt.lib.salterror import SaltIOError
 
 # This reads the FORTRAN config file if it exists
+try:
+    from fortranfp import ringfilter_wrapper
+    from fortranfp.ringfilter_wrapper import getpfp
+except:
+    print "Unable to import fortranfp"
+    pass
 
-from fortranfp import ringfilter_wrapper
-from fortranfp.ringfilter_wrapper import getpfp
 debug=True
 
 def saltfpringfilter(axc,ayc,arad,rxc,ryc,filterfreq,filterwidth,itmax,conv, fitwidth,image,logfile,useconfig,configfile,verbose):  
@@ -184,8 +186,3 @@ def saltfpringfilter(axc,ayc,arad,rxc,ryc,filterfreq,filterwidth,itmax,conv, fit
     # go back to starting directory
     os.chdir(startdir) 
 
-# -----------------------------------------------------------
-# main code
-
-parfile = iraf.osfn("saltfp$saltfpringfilter.par")
-t = iraf.IrafTaskFactory(taskname="saltfpringfilter",value=parfile,function=saltfpringfilter,pkgname='saltfp')

@@ -52,12 +52,10 @@ import sys
 import numpy as np
 #import pyfits
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-import saltsafekey as saltkey
-import saltsafeio as saltio
-import fpsafeio
-from saltsafelog import logging
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+import fpsafeio as fpsafeio
+from pysalt.lib.saltsafelog import logging
 
 # This reads the FORTRAN config file if it exists
 
@@ -122,9 +120,3 @@ def maskimage(data,  axc, ayc, arad, maskvalue):
     return data
     
     
-
-# -----------------------------------------------------------
-# main code
-
-parfile = iraf.osfn("saltfp$saltfpmask.par")
-t = iraf.IrafTaskFactory(taskname="saltfpmask",value=parfile,function=saltfpmask,pkgname='saltfp')

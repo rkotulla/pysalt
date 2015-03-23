@@ -53,12 +53,10 @@ import numpy as np
 import numpy.ma as ma
 import pyfits
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-import saltsafekey
-import saltsafeio as saltio
-import fpsafeio
-from saltsafelog import logging
+import pysalt.lib.saltsafekey
+import pysalt.lib.saltsafeio as saltio
+import pysalt.fp.fpsafeio
+from pysalt.lib.saltsafelog import logging
 
 debug=True
 
@@ -139,9 +137,3 @@ def median_radial_profile(data, xc=0, yc=0, rmax=500, nbins=50, pmin=0, pmax=100
     return rpro, arr 
 
 
-    
-# -----------------------------------------------------------
-# main code
-
-parfile = iraf.osfn("saltfp$saltfpskyring.par")
-t = iraf.IrafTaskFactory(taskname="saltfpskyring",value=parfile,function=saltfpskyring,pkgname='saltfp')

@@ -47,17 +47,20 @@ import sys
 import numpy as np
 #import pyfits
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-import saltsafekey
-import saltsafeio
-import fpsafeio
-from saltsafelog import logging
+import pysalt.lib.saltsafekey as saltsafekey
+import pysalt.lib.saltsafeio as saltsafeio
+import fpsafeio as fpsafeio
+from pysalt.lib.saltsafelog import logging
 
 # This reads the FORTRAN config file if it exists
 
-from fortranfp import calprofile_wrapper
-from fortranfp.calprofile_wrapper import getpfp
+try:
+    from fortranfp import calprofile_wrapper
+    from fortranfp.calprofile_wrapper import getpfp
+except:
+    print "Unable to import fortranfp"
+    pass
+
 debug=True
 
 def saltfpcalprofile(axc,ayc,arad,rxc,ryc,filter, filterfreq,filterwidth,plottype,itmax,conv, fitwidth,rlo,rhi,rfixed,cenfixed,images,outfile,comment,cala, calb, calc, cald, calf,calprofilelogfile,logfile,useconfig,configfile,verbose):  
@@ -309,8 +312,3 @@ def saltfpcalprofile(axc,ayc,arad,rxc,ryc,filter, filterfreq,filterwidth,plottyp
         # go back to starting directory
         os.chdir(startdir)   
 
-# -----------------------------------------------------------
-# main code
-
-parfile = iraf.osfn("saltfp$saltfpcalprofile.par")
-t = iraf.IrafTaskFactory(taskname="saltfpcalprofile",value=parfile,function=saltfpcalprofile,pkgname='saltfp')

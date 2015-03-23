@@ -50,13 +50,11 @@ import numpy as np
 import pyfits
 from datetime import datetime
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-import saltsafekey as saltkey
-import saltsafeio as saltio
-import salttime
-from saltsafelog import logging
-from salterror import SaltError
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+import pysalt.lib.salttime as salttime
+from pysalt.lib.saltsafelog import logging
+from pysalt.lib.salterror import SaltError
 
 from fptools import fpfunc
 
@@ -152,8 +150,3 @@ def get_datetime(hdu):
     t=hdu[0].header['TIME-OBS']
     return datetime.strptime('%s %s' % (d,t), '%Y-%m-%d %H:%M:%S.%f')
 
-# -----------------------------------------------------------
-# main code
-
-parfile = iraf.osfn("saltfp$saltfpzeropoint.par")
-t = iraf.IrafTaskFactory(taskname="saltfpzeropoint",value=parfile,function=saltfpzeropoint,pkgname='saltfp')

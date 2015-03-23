@@ -46,14 +46,16 @@ import sys
 import numpy as np
 #import pyfits
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-import saltsafekey
-import saltsafeio
-import fpsafeio
-from saltsafelog import logging
+import pysalt.lib.saltsafekey as saltsafekey
+import pysalt.lib.saltsafeio as saltsafeio
+import fpsafeio as fpsaltio
+from pysalt.lib.saltsafelog import logging
 
-from fortranfp import eprofile_wrapper
+try:
+    from fortranfp import eprofile_wrapper
+except:
+    print "unable to import fortranfp"
+    pass
 
 debug=True
 
@@ -119,8 +121,3 @@ def saltfpeprofile(plottype,infile,logfile, verbose):
 
         eprofile_wrapper.eprofile(plottype,infile)
 
-# -----------------------------------------------------------
-# main code
-
-parfile = iraf.osfn("saltfp$saltfpeprofile.par")
-t = iraf.IrafTaskFactory(taskname="saltfpeprofile",value=parfile,function=saltfpeprofile,pkgname='saltfp')

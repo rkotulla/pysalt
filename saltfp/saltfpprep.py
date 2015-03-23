@@ -51,14 +51,12 @@ import sys
 import numpy as np
 #import pyfits
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging
 
-from salt2iraf import convertsalt
-from salterror import SaltError
+from pysalt.saltred.salt2iraf import convertsalt
+from pysalt.lib.salterror import SaltError
 
 debug=True
 
@@ -84,9 +82,3 @@ def saltfpprep(images, outimages, outpref,
            except SaltError, e:
                log.message('%s' %e)
 
-
-# -----------------------------------------------------------
-# main code
-
-parfile = iraf.osfn("saltfp$saltfpprep.par")
-t = iraf.IrafTaskFactory(taskname="saltfpprep",value=parfile,function=saltfpprep,pkgname='saltfp')

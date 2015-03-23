@@ -49,18 +49,16 @@ import pyfits
 import math
 import numpy as np
 
-from pyraf import iraf 
-from pyraf.iraf import pysalt
-import saltsafekey as saltkey
-import saltsafeio as saltio
-from saltsafelog import logging
-from saltstat import iterstat
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.saltsafelog import logging
+from pysalt.lib.saltstat import iterstat
 
 
-from display import display
+from pysalt.plugins.display import display
 from PySpectrograph.Spectra import findobj
 
-from salterror import SaltError
+from pysalt.lib.salterror import SaltError
 
 from fptools import findrings, findcenter
 
@@ -149,7 +147,4 @@ physical
           for ring in ring_list:
               msg='%30s %6.2f %6.2f %6.2f\n' % (img, ring.xc, ring.yc, ring.prad)
               log.message(msg, with_header=False, with_stdout=verbose)
-
-parfile = iraf.osfn("saltfp$saltfpringfind.par")
-t = iraf.IrafTaskFactory(taskname="saltfpringfind",value=parfile,function=saltfpringfind,pkgname='saltfp')
 

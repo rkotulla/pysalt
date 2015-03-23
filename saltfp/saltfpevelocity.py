@@ -46,14 +46,16 @@ import sys
 import numpy as np
 #import pyfits
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-import saltsafekey
-import saltsafeio
-import fpsafeio
-from saltsafelog import logging
+import pysalt.lib.saltsafekey as saltsafekey
+import pysalt.lib.saltsafeio as saltsafeio
+import fpsafeio as fpsafeio
+from pysalt.lib.saltsafelog import logging
 
-import evelocity_wrapper2
+try:
+    import evelocity_wrapper2
+except:
+    print "Unable to import evelocity_wrapper2"
+    pass
 
 debug=True
 
@@ -119,8 +121,5 @@ def saltfpevelocity(infile,existfit,xc,yc,rmax,logfile, verbose):
 
         evelocity_wrapper2.evelocity2(infile,existfit,xc,yc,rmax)
 
-# -----------------------------------------------------------
-# main code
 
-parfile = iraf.osfn("saltfp$saltfpevelocity.par")
-t = iraf.IrafTaskFactory(taskname="saltfpevelocity",value=parfile,function=saltfpevelocity,pkgname='saltfp')
+

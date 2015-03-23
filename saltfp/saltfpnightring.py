@@ -1,4 +1,4 @@
-################################# LICENSE ##################################
+\################################# LICENSE ##################################
 # Copyright (c) 2009, South African Astronomical Observatory (SAAO)        #
 # All rights reserved.                                                     #
 #                                                                          #
@@ -51,17 +51,19 @@ import sys
 import numpy as np
 #import pyfits
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-import saltsafekey
-import saltsafeio
-import fpsafeio
-from saltsafelog import logging
+import pysalt.lib.saltsafekey as saltsafekey
+import pysalt.lib.saltsafeio as saltsafeio
+import fpsafeio as fpsafeio
+from pysalt.lib.saltsafelog import logging
 
 # This reads the FORTRAN config file if it exists
+try:
+    from fortranfp import nightring_wrapper
+    from fortranfp.nightring_wrapper import getpfp
+except:
+    print "Unable to import fortranfp"
+    pass
 
-from fortranfp import nightring_wrapper
-from fortranfp.nightring_wrapper import getpfp
 debug=True
 
 def saltfpnightring(axc,ayc,arad,rxc,ryc,filter,filterfreq,filterwidth,plot, plottype,itmax,conv, fitwidth,images,outfile,comment,cala, calb, calc, cald, calf,
@@ -307,9 +309,3 @@ nightringlogfile,logfile,useconfig,configfile,verbose):
         # go back to starting directory
         os.chdir(startdir)   
 
-
-# -----------------------------------------------------------
-# main code
-
-parfile = iraf.osfn("saltfp$saltfpnightring.par")
-t = iraf.IrafTaskFactory(taskname="saltfpnightring",value=parfile,function=saltfpnightring,pkgname='saltfp')
