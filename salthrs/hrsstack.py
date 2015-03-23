@@ -43,14 +43,12 @@
 import os, glob
 import pyfits
 import numpy as np
-from pyraf import iraf
-from pyraf.iraf import pysalt
 
-import saltsafeio as saltio
-import saltsafekey as saltkey
-from saltsafelog import logging, history
+import pysalt.lib.saltsafeio as saltio
+import pysalt.lib.saltsafekey as saltkey
+from pysalt.lib.saltsafelog import logging, history
 
-from salterror import SaltError
+from pysalt.lib.salterror import SaltError
 
 debug=True
 
@@ -143,8 +141,4 @@ def stack(hdu):
 
     return nhdu
 
-
-if not iraf.deftask('hrsstack'):
-    parfile = iraf.osfn("salthrs$hrsstack.par")
-    t = iraf.IrafTaskFactory(taskname="hrsstack",value=parfile,function=hrsstack, pkgname='salthrs')
 

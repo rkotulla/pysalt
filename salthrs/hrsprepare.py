@@ -17,14 +17,12 @@
 
 import os, glob
 import pyfits
-from pyraf import iraf
-from pyraf.iraf import pysalt
 
-import saltsafeio as saltio
-import saltsafekey as saltkey
-from saltsafelog import logging, history
+import pysalt.lib.saltsafeio as saltio
+import pysalt.lib.saltsafekey as saltkey
+from pysalt.lib.saltsafelog import logging, history
 
-from salterror import SaltError
+from pysalt.lib.salterror import SaltError
 
 debug=True
 
@@ -270,8 +268,4 @@ def definesection(namp, detector, ccdshape):
        x2 = x1 + int(0.5*ccdshape[1])
        y2 = y1 + ccdshape[0]
     return x1,x2,y1,y2
-
-if not iraf.deftask('hrsprepare'):
-    parfile = iraf.osfn("salthrs$hrsprepare.par")
-    t = iraf.IrafTaskFactory(taskname="hrsprepare",value=parfile,function=hrsprepare, pkgname='salthrs')
 

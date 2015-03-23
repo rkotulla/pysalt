@@ -16,27 +16,25 @@
 import os, glob, time
 import pyfits
 import numpy as np
-from pyraf import iraf
-from pyraf.iraf import pysalt
 
-import saltsafestring as saltstring
-import saltsafeio as saltio
-import saltsafekey as saltkey
-from saltsafelog import logging, history
+import pysalt.lib.saltsafestring as saltstring
+import pysalt.lib.saltsafeio as saltio
+import pysalt.lib.saltsafekey as saltkey
+from pysalt.lib.saltsafelog import logging, history
 
-from saltobslog import obslog,createobslogfits
-from saltprepare import prepare
-from saltgain import gain
-from saltxtalk  import xtalk
-from saltbias import bias
-from saltflat import flat
-from saltcombine import saltcombine
-from saltclean import compareimages
+from pysalt.saltred.saltobslog import obslog,createobslogfits
+from pysalt.saltred.saltprepare import prepare
+from pysalt.saltred.saltgain import gain
+from pysalt.saltred.saltxtalk  import xtalk
+from pysalt.saltred.saltbias import bias
+from pysalt.saltred.saltflat import flat
+from pysalt.saltred.saltcombine import saltcombine
+from pysalt.saltred.saltclean import compareimages
 
 from hrsprepare import prepare as hrsprepare
 from hrsstack import stack
 
-from salterror import SaltError
+from pysalt.lib.salterror import SaltError
 
 debug=True
 
@@ -289,10 +287,4 @@ def createmasterbiasname(infiles, biaskeys, x1=5, x2=13):
     return biasname
 
    
-
-
-
-if not iraf.deftask('hrsclean'):
-    parfile = iraf.osfn("salthrs$hrsclean.par")
-    t = iraf.IrafTaskFactory(taskname="hrsclean",value=parfile,function=hrsclean, pkgname='salthrs')
 
