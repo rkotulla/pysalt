@@ -35,29 +35,26 @@ from PyQt4 import QtGui, QtCore
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg
 
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-
-import saltsafekey as saltkey
-import saltsafeio as saltio
-import saltsafemysql as saltmysql
-import saltstat
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+import pysalt.lib.saltsafemysql as saltmysql
+import pysalt.lib.saltstat as saltstat
 
 #import plugins
-from quickclean import quickclean
-from quickphot  import quickphot
-from quickspec  import quickspec, quickap
-from display import display, regions
-from seeing import seeing_stats
-from sdbloadobslog import sdbloadobslog
-from fpcal import fpcal
-from findcal import findcal
-from fastmode import runfast
-from sdbloadfits import sdbloadfits
+from pysalt.plugins.quickclean import quickclean
+from pysalt.plugins.quickphot  import quickphot
+from pysalt.plugins.quickspec  import quickspec, quickap
+from pysalt.plugins.display import display, regions
+from pysalt.plugins.seeing import seeing_stats
+from pysalt.plugins.sdbloadobslog import sdbloadobslog
+from pysalt.plugins.fpcal import fpcal
+from pysalt.plugins.findcal import findcal
+from pysalt.plugins.fastmode import runfast
+from pysalt.plugins.sdbloadfits import sdbloadfits
 
-from saltgui import ImageDisplay, MplCanvas
-from saltsafelog import logging
-from salterror import SaltError, SaltIOError
+from pysalt.lib.saltgui import ImageDisplay, MplCanvas
+from pysalt.lib.saltsafelog import logging
+from pysalt.lib.salterror import SaltError, SaltIOError
 
 
 from OrderedDict import OrderedDict
@@ -723,9 +720,3 @@ def getimagedetails(hdu):
    return imlist
 
 
-
-# -----------------------------------------------------------
-# main code
-
-#parfile = iraf.osfn("saltfirst$saltfirst.par")
-#t = iraf.IrafTaskFactory(taskname="saltfirst",value=parfile,function=saltfirst, pkgname='pipetools')

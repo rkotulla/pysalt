@@ -5,8 +5,8 @@ it expects to be given the wavelenght, flux, and sn arrays for the data
 import numpy as np
 from PyQt4 import QtGui, QtCore
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg
-from saltgui import MplCanvas
-from InterIdentify import ArcDisplay
+from pysalt.lib.saltgui import MplCanvas
+from pysalt.saltspec.InterIdentify import ArcDisplay
 
 
 class SpectraViewWidget(QtGui.QWidget):

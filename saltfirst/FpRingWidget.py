@@ -3,15 +3,15 @@ import os, errno
 from PyQt4 import QtGui,QtCore
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg
-from pyraf import iraf
+
 import pyfits
-from iraf import pysalt
-from saltgui import MplCanvas
+
+from pysalt.lib.saltgui import MplCanvas
 from erc_ring import fit_rings
-from saltflat import saltflat
-from saltfp import saltfpprep, saltfpmask
-from saltfpprep import saltfpprep
-from saltfpmask import saltfpmask
+from pysalt.saltred.saltflat import saltflat
+from pysalt.saltred.saltfp import saltfpprep, saltfpmask
+from pysalt.saltfp.saltfpprep import saltfpprep
+from pysalt.saltfp.saltfpmask import saltfpmask
 #from fptools import findrings, findcenter
 
 class FpRingWidget (QtGui.QWidget):

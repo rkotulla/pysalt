@@ -3,7 +3,7 @@ import os, errno
 from PyQt4 import QtGui,QtCore
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg
-from saltgui import MplCanvas
+from pysalt.lib.saltgui import MplCanvas
 
 class FpParallWidget (QtGui.QWidget):
 

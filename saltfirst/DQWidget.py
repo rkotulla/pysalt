@@ -8,12 +8,12 @@ import pyfits
 from PyQt4 import QtGui, QtCore
 from ObsLogWidget import headerList, printList
 
-from saltstat import iterstat
+from pysalt.lib.saltstat import iterstat
 
 
 #import plugins
-from rssinfo import rssinfo
-from seeing import seeing_stats, airmass
+from pysalt.plugins.rssinfo import rssinfo
+from pysalt.plugins.seeing import seeing_stats, airmass
 
 class DQWidget(QtGui.QWidget):
    def __init__(self, name, imlist, parent=None):
