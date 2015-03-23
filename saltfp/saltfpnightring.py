@@ -1,4 +1,4 @@
-\################################# LICENSE ##################################
+################################# LICENSE ##################################
 # Copyright (c) 2009, South African Astronomical Observatory (SAAO)        #
 # All rights reserved.                                                     #
 #                                                                          #
