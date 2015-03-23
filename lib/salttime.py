@@ -31,7 +31,6 @@
 ############################################################################
 
 import time, datetime
-from pyraf import iraf
 from math import *
 import numpy as np
 from string import zfill

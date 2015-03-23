@@ -41,7 +41,6 @@
     Clean up module to use proper error handling and remove unnecesary code.
 """
 
-from pyraf import iraf
 import saltprint, saltio, pyfits, string
 
 def get(keyword,hdu,file,logfile):

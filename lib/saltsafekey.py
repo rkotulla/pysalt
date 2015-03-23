@@ -48,7 +48,6 @@
 """
 
 import os
-from pyraf import iraf
 import pyfits
 import string
 import saltsafeio
