@@ -45,16 +45,14 @@ ERC (SAAO)             0.2          20 Sep 2013
 import os 
 import pyfits
 
-#pysalt imports
-from pyraf import iraf
-from pyraf.iraf import pysalt
+import pysalt
 
-from saltflat import saltflat
-from saltfpprep import saltfpprep
-from saltfpringfit import saltfpringfit
+from pysalt.saltred.saltflat import saltflat
+from pysalt.saltfp.saltfpprep import saltfpprep
+from pysalt.saltfp.saltfpringfit import saltfpringfit
 
 
-import saltsafeio
+from pysalt.lib import saltsafeio
 
 
 def fpcal(profile, flatimage=None, minflat=15000, bthresh=5, niter=5, displayimage=False, clobber=False, logfile='saltclean.log', verbose=True):

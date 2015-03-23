@@ -18,22 +18,16 @@ S M Crawford (SAAO)    0.1          16 Mar 2010
 """
 import os 
 
-#pysalt imports
-from pyraf import iraf
-from iraf import pysalt
-
-from pyraf.iraf import saltred
-
-from saltprepare import prepare
-from saltgain import gain
-from saltxtalk  import xtalk
-from saltbias import bias
-from saltflat import flat
-from saltcrclean import multicrclean
+from pysalt.saltred.saltprepare import prepare
+from pysalt.saltred.saltgain import gain
+from pysalt.saltred.saltxtalk  import xtalk
+from pysalt.saltred.saltbias import bias
+from pysalt.saltred.saltflat import flat
+from pysalt.saltred.saltcrclean import multicrclean
 
 
-import saltsafeio as saltio
-import saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
+import pysalt.lib.saltsafekey as saltkey
 
 def quickclean(filename, interp='linear', cleanup=True, clobber=False, logfile='saltclean.log', verbose=True):
    """Start the process to reduce the data and produce a single mosaicked image"""

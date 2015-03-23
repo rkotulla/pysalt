@@ -45,9 +45,9 @@ S M Crawford (SAAO)    0.1          18 Jan 2012
 
 """
 import os
-import saltsafemysql as saltmysql
-import saltsafestring as saltstring
-from saltsafeio import email as sendemail
+import pysalt.lib.saltsafemysql as saltmysql
+import pysalt.lib.saltsafestring as saltstring
+from pysalt.lib.saltsafeio import email as sendemail
 
 
 def runfast(filename, propcode, obsdate, server, readmefile, sdbhost, sdbname, sdbuser, password):

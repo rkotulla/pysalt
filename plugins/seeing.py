@@ -46,7 +46,7 @@ S M Crawford (SAAO)    0.1          19 Jun 2011
 import math
 import numpy as np
 
-from saltfit import *
+from pysalt.lib.saltfit import *
 
 def hist_stats(arr, bins=200, range=(0,50)):
     h=np.histogram(arr, bins=bins, range=range)

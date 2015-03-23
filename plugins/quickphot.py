@@ -44,7 +44,7 @@ S M Crawford (SAAO)    0.1          16 Mar 2010
 """
 import os 
 
-from salterror import SaltError
+from pysalt.lib.salterror import SaltError
 
 def quickphot(infile, r_ap, pix_scale, sexfile, clobber=False, logfile='saltclean.log', verbose=True):
    """Run photometry on the image"""

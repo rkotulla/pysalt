@@ -45,7 +45,7 @@ S M Crawford (SAAO)    0.1          19 Jun 2011
 """
 
 from PySpectrograph.Models import RSSModel
-from spectools import getslitsize
+from pysalt.saltspec.spectools import getslitsize
 
 
 def rssinfo(grating, grang, arang, slitname, xbin, ybin):

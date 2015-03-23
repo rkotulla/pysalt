@@ -48,7 +48,7 @@ from numpy import *         # array
 import sys, getopt                  # command line switches
 import warnings
 
-from salttime import dec2sex
+from pysalt.lib.salttime import dec2sex
 
 # define exceptions
 

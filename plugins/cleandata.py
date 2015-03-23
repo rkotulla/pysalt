@@ -47,15 +47,11 @@ import os, shutil, time, ftplib, glob, pyfits
 import numpy as np
 import scipy as sp
 
-#pysalt imports
-from pyraf import iraf
-from pyraf.iraf import pysalt
-from pyraf.iraf import saltred
-from pyraf.iraf import saltspec
-#from pyraf.iraf import pipetools
+import pysalt, pysalt.saltred, pysalt.saltspec, pysalt.saltfirst
 
-import saltsafekey as saltkey
-import saltsafeio as saltio
+
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltio
 
 def cleandata(filename, iminfo=None, prodir='.', interp='linear', cleanup=True, clobber=False, logfile='saltclean.log', display_image=False, verbose=True):
    """Start the process to reduce the data and produce a single mosaicked image"""
@@ -71,7 +67,7 @@ def cleandata(filename, iminfo=None, prodir='.', interp='linear', cleanup=True, 
    #check to see if the data have detmode
    if iminfo is not None:
       detmode=iminfo[headerList.index('DETMODE')].strip().upper()
-      print 'DETMODE:' detmode
+      print 'DETMODE:', detmode
 
    #If it is a bin file, pre-process the data
    if filename.count('.bin'):
@@ -116,19 +112,19 @@ def cleandata(filename, iminfo=None, prodir='.', interp='linear', cleanup=True, 
       if os.path.isfile(pinfile): os.remove(pinfile)
       if os.path.isfile(biasfile): os.remove(biasfile)
 
-       i=headerList.index('CCDSUM')
-       ccdbin=int(iminfo[i].split()[0])
-       pix_scale=0.14
-       r_ap=1.5/(pix_scale*ccdbin)
-       print pix_scale, ccdbin, r_ap
-
-       profile=outpath+'mbxp'+infile
-       outcat=profile.split('.fits')[0]+'.cat'
-       sexfile='/home/ccd/tools/qred.sex'
-       backfile = profile.strip().strip('.fits')+'_back.fits'
-       cmd='sex %s -c %s -PIXEL_SCALE %f -CATALOG_NAME %s -PHOT_APERTURES %f ' % (profile.strip(),sexfile, pix_scale,outcat,r_ap)
-       print "SALTFIRST--Performing photometry on %s" % profile
-       if os.path.isfile(sexfile): os.system(cmd)
+      i=headerList.index('CCDSUM')
+      ccdbin=int(iminfo[i].split()[0])
+      pix_scale=0.14
+      r_ap=1.5/(pix_scale*ccdbin)
+      print pix_scale, ccdbin, r_ap
+      
+      profile=outpath+'mbxp'+infile
+      outcat=profile.split('.fits')[0]+'.cat'
+      sexfile='/home/ccd/tools/qred.sex'
+      backfile = profile.strip().strip('.fits')+'_back.fits'
+      cmd='sex %s -c %s -PIXEL_SCALE %f -CATALOG_NAME %s -PHOT_APERTURES %f ' % (profile.strip(),sexfile, pix_scale,outcat,r_ap)
+      print "SALTFIRST--Performing photometry on %s" % profile
+      if os.path.isfile(sexfile): os.system(cmd)
 
 
    #If the images are spectral images, run specreduce on them

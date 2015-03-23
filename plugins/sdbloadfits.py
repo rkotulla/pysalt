@@ -46,11 +46,11 @@ from __future__ import with_statement
 
 
 import os, time, glob, string
-from pyraf import iraf
-import saltsafeio as saltio
-import saltsafemysql as saltmysql
-from saltsafelog import logging
-from salterror import SaltError
+
+import pysalt.lib.saltsafeio as saltio
+import pysalt.lib.saltsafemysql as saltmysql
+from pysalt.lib.saltsafelog import logging
+from pysalt.lib.salterror import SaltError
 
 
 debug=True

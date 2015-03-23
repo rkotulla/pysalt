@@ -17,9 +17,8 @@ S M Crawford (SAAO)    0.1          19 Jun 2011
 
 """
 
-from pyraf import iraf
-from pyraf.iraf import pysalt
-import saltsafemysql as saltmysql
+import pysalt
+from pysalt.lib import saltsafemysql as saltmysql
 
 import datetime
 

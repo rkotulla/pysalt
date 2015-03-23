@@ -16,7 +16,7 @@ Author                 Version      Date
 S M Crawford (SAAO)    0.1          19 Jun 2011
 
 """
-import saltsafemysql as saltmysql
+import pysalt.lib.saltsafemysql as saltmysql
 
 def sdbloadobslog(logstr, obsdate, sdbhost, sdbname, sdbuser, password):
     """Load logstr into the SDB"""

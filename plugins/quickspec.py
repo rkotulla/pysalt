@@ -22,23 +22,19 @@ import numpy as np
 import matplotlib
 matplotlib.use('GTkAgg')
 
-#pysalt imports
-from pyraf import iraf
-from pyraf.iraf import pysalt
-
 from scipy.ndimage.filters import median_filter
 
-from specrectify import specrectify
-from specextract import extract, write_extract
-from specsky import specsky
-from specslitnormalize import create_response 
+from pysalt.saltspec.specrectify import specrectify
+from pysalt.saltspec.specextract import extract, write_extract
+from pysalt.saltspec.specsky import specsky
+from pysalt.saltspec.specslitnormalize import create_response 
 
 
 from PySpectrograph.Models import RSSModel
 
-import spectools as st
-import saltsafekey as saltkey
-import saltsafeio
+import pysalt.saltspec.spectools as st
+import pysalt.lib.saltsafekey as saltkey
+import pysalt.lib.saltsafeio as saltsafeio
 
 import pylab as pl 
 
