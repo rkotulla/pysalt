@@ -3,7 +3,10 @@ The PySALT user package is the primary reduction and analysis software tools for
 
 """
 
-import pyraf
-from iraf import pysalt 
+#import pyraf
+#from iraf import pysalt 
 
-__version__=pysalt.verno
+import version
+__version__=version.full_version #'1.0.0' #pysalt.verno
+__revision__=version.git_revision
+

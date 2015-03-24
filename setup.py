@@ -46,19 +46,19 @@ Operating System :: MacOS
 """
 
 NAME                = 'pysalt'
-MAINTAINER          = "NumPy Developers"
-MAINTAINER_EMAIL    = "numpy-discussion@scipy.org"
+MAINTAINER          = "PySALT Developers"
+MAINTAINER_EMAIL    = "kotulla@wisc.edu"
 DESCRIPTION         = DOCLINES[0]
 LONG_DESCRIPTION    = "\n".join(DOCLINES[2:])
-URL                 = "http://numpy.scipy.org"
-DOWNLOAD_URL        = "http://sourceforge.net/project/showfiles.php?group_id=1369&package_id=175103"
-LICENSE             = 'BSD'
+URL                 = "http://salt.ac.za"
+DOWNLOAD_URL        = "http://members.galev.org/rkotulla/"
+LICENSE             = '???'
 CLASSIFIERS         = filter(None, CLASSIFIERS.split('\n'))
-AUTHOR              = "Travis E. Oliphant, et.al."
-AUTHOR_EMAIL        = "oliphant@enthought.com"
+AUTHOR              = "Ralf Kotulla, et.al."
+AUTHOR_EMAIL        = "kotulla@wisc.edu"
 PLATFORMS           = ["Windows", "Linux", "Solaris", "Mac OS-X", "Unix"]
-MAJOR               = 1
-MINOR               = 6
+MAJOR               = 0
+MINOR               = 4
 MICRO               = 2
 ISRELEASED          = True
 VERSION             = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
@@ -89,18 +89,18 @@ def git_version():
 
 # BEFORE importing distutils, remove MANIFEST. distutils doesn't properly
 # update it when the contents of directories change.
-if os.path.exists('MANIFEST'): os.remove('MANIFEST')
+#if os.path.exists('MANIFEST'): os.remove('MANIFEST')
 
 # This is a bit hackish: we are setting a global variable so that the main
 # numpy __init__ can detect if it is being loaded by the setup routine, to
 # avoid attempting to load components that aren't built yet.  While ugly, it's
 # a lot more robust than what was previously being used.
-builtins.__NUMPY_SETUP__ = True
+#builtins.__NUMPY_SETUP__ = True
 
 
-def write_version_py(filename='version.py'):
+def write_version_py(filename='pysalt/version.py'):
     cnt = """
-# THIS FILE IS GENERATED FROM NUMPY SETUP.PY
+# THIS FILE IS GENERATED FROM PySALT SETUP.PY (based on NUMPY setup.py)
 short_version = '%(version)s'
 version = '%(version)s'
 full_version = '%(full_version)s'
@@ -138,20 +138,32 @@ if not release:
     finally:
         a.close()
 
-# def configuration(parent_package='',top_path=None):
-#     from numpy.distutils.misc_util import Configuration
 
-#     config = Configuration(None, parent_package, top_path)
-#     config.set_options(ignore_setup_xxx_py=True,
-#                        assume_default_configuration=True,
-#                        delegate_options_to_subpackages=True,
-#                        quiet=True)
 
-#     config.add_subpackage('pysalt')
+def get_all_data_files(dirname, prefix, basedir='pysalt/'):
 
-#     config.get_version('version.py') # sets config.version
+    filelist = []
 
-#     return config
+    # Change directory - this ensures relative path names without too much 
+    # manipulations
+    cur_dir = os.getcwd()
+    os.chdir(basedir)
+
+    # Now recursively walk through each directory and get a list of all files
+    ndirs = 0
+    for (dirpath, dirnames, filenames) in os.walk(dirname):
+        if (dirpath.find(".svn") >= 0):
+            continue
+        if (dirpath.endswith("/")):
+            dirpath = dirpath[:-1]
+        filelist.extend(['%s/%s' % (dirpath,f) for f in filenames])
+        ndirs += 1
+        #if (ndirs > 3): break
+
+    # Change back to the directory we came from just to keep things clean
+    os.chdir(cur_dir)
+
+    return filelist
 
 def setup_package():
 
@@ -171,35 +183,12 @@ def setup_package():
 
     packages = ['pysalt',
                 'pysalt.proptools',
-                'data',
                 'pysalt.saltfirst',
                 'pysalt.saltfp',
                 'pysalt.salthrs',
                 'pysalt.saltred',
 
                 'pysalt.saltspec',
-                # 'pysalt.saltspec.AutoIdentify',
-                # 'pysalt.saltspec.calibrate',
-                # 'pysalt.saltspec.InterIdentify',
-                # 'pysalt.saltspec.mostools',
-                # 'pysalt.saltspec.senscurve',
-                # 'pysalt.saltspec.sensfunc',
-                # 'pysalt.saltspec.specarcstraighten',
-                # 'pysalt.saltspec.speccal',
-                # 'pysalt.saltspec.specextract',
-                # 'pysalt.saltspec.specidentify',
-                # 'pysalt.saltspec.specprepare',
-                # 'pysalt.saltspec.specrectify',
-                # 'pysalt.saltspec.specreduce',
-                # 'pysalt.saltspec.specselfid',
-                # 'pysalt.saltspec.specsens',
-                # 'pysalt.saltspec.specsky',
-                # 'pysalt.saltspec.specslitnormalize',
-                # 'pysalt.saltspec.specslit',
-                # 'pysalt.saltspec.spectools',
-                # 'pysalt.saltspec.specview',
-                # 'pysalt.saltspec.WavelengthSolution',
-
                 'pysalt.slottools',
                 'pysalt.proptools',
                 'pysalt.lib',
@@ -207,18 +196,18 @@ def setup_package():
                 'pysalt._iraf',
     ]
 
-    package_dir = {'pysalt': '',
-                   'pysalt.lib': 'lib',
-                   'pysalt.saltfirst': 'saltfirst',
-                   'pysalt.proptools': 'proptools',
-                   'pysalt.saltfp': 'saltfp',
-                   'pysalt.salthrs': 'salthrs',
-                   'pysalt.saltred': 'saltred',
-                   'pysalt.saltspec': 'saltspec',
-                   'pysalt.slottools': 'slottools',
-                   'pysalt.plugins': 'plugins',
-                   'pysalt.proptools': 'proptools',
-                   'pysalt._iraf': '_iraf',
+    package_dir = {'pysalt': 'pysalt',
+                   'pysalt.lib': 'pysalt/lib',
+                   'pysalt.saltfirst': 'pysalt/saltfirst',
+                   'pysalt.proptools': 'pysalt/proptools',
+                   'pysalt.saltfp': 'pysalt/saltfp',
+                   'pysalt.salthrs': 'pysalt/salthrs',
+                   'pysalt.saltred': 'pysalt/saltred',
+                   'pysalt.saltspec': 'pysalt/saltspec',
+                   'pysalt.slottools': 'pysalt/slottools',
+                   'pysalt.plugins': 'pysalt/plugins',
+                   'pysalt.proptools': 'pysalt/proptools',
+                   'pysalt._iraf': 'pysalt/_iraf',
     }
 
     try:
@@ -235,13 +224,14 @@ def setup_package():
             author=AUTHOR,
             author_email=AUTHOR_EMAIL,
             platforms=PLATFORMS,
-        #    configuration=configuration 
             packages=packages,
             package_dir=package_dir,
+            package_data = {'pysalt': get_all_data_files('data/', 'xxx', 'pysalt/'), }
         )
     finally:
         del sys.path[0]
         os.chdir(old_path)
+
     return
 
 if __name__ == '__main__':
