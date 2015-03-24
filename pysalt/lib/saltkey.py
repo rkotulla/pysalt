@@ -98,7 +98,7 @@ def put(keyword,value,hdu,file,logfile):
 
     status = 0
     try:
-        hdu.header.update(keyword,value)
+        hdu.header[keyword] = value
     except:
         message = 'ERROR -- SALTKEY.PUT: Cannot update keyword ' + keyword
         message += ' in ' + file
@@ -145,7 +145,7 @@ def new(keyword,value,comment,hdu,file,logfile):
 
     status = 0
     try:
-        hdu.header.update(keyword,value,comment)
+        hdu.header[keyword] = (value,comment)
     except Exception, e:
         message = 'ERROR -- SALTKEY.NEW: Cannot create keyword %s in %s because %s ' % (keyword, file, e)
         status = saltprint.err(logfile,message)
@@ -304,8 +304,9 @@ def copy(new,old,key,logfile):
 
     if found(key,old):
         try:
-            oldcard=old.header.ascardlist()
-            new.header.update(key,old.header[key],oldcard[key].comment)
+            (oldkey,value,comment) = old.header.cards[key]
+            #oldcard=old.header.ascardlist()
+            new.header[key] = (value, comment)
         except:
             message  = 'ERROR -- SALTKEY.COPY: Cannot COPY KEYWORD ' + key
             status = saltprint.err(logfile,message)
