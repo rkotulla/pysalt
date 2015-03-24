@@ -34,21 +34,7 @@
 
 
 #define the PyRAF tasks automatically
-pyexecute("saltred$saltbias.py",verbose=no)
-pyexecute("saltred$saltclean.py",verbose=no)
-pyexecute("saltred$salt2iraf.py",verbose=no)
-pyexecute("saltred$saltcrclean.py",verbose=no)
-pyexecute("saltred$saltgain.py",verbose=no)
-pyexecute("saltred$saltflat.py",verbose=no)
-pyexecute("saltred$saltillum.py",verbose=no)
-pyexecute("saltred$saltcombine.py",verbose=no)
-pyexecute("saltred$saltmosaic.py",verbose=no)
-pyexecute("saltred$saltobslog.py",verbose=no)
-pyexecute("saltred$saltslot.py",verbose=no)
-pyexecute("saltred$saltxtalk.py",verbose=no)
-pyexecute("saltred$saltprepare.py",verbose=no)
-pyexecute("saltred$saltheadtime.py",verbose=no)
-pyexecute("saltred$saltarith.py",verbose=no)
+pyexecute("saltred$__iraf_init__.py", verbose=yes)
 
 package saltred
 

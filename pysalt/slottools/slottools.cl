@@ -33,14 +33,7 @@
 # Package script for the sloottools package
 
 #define the PyRAF tasks automatically
-pyexecute("slottools$slotphot.py",verbose=no)
-pyexecute("slottools$slotview.py",verbose=no)
-pyexecute("slottools$slotpreview.py",verbose=no)
-pyexecute("slottools$slotmerge.py",verbose=no)
-pyexecute("slottools$slotback.py",verbose=no)
-pyexecute("slottools$slotutcfix.py",verbose=no)
-pyexecute("slottools$slotreadtimefix.py",verbose=no)
-
+pyexecute("slottools$__iraf_init__.py",verbose=no)
 
 package slottools
 

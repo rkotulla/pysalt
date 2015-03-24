@@ -34,17 +34,7 @@
 
 
 #define the PyRAF tasks automatically
-pyexecute("saltspec$specprepare.py",verbose=no)
-pyexecute("saltspec$specidentify.py",verbose=no)
-pyexecute("saltspec$specrectify.py",verbose=no)
-pyexecute("saltspec$specsky.py",verbose=no)
-pyexecute("saltspec$specextract.py",verbose=no)
-pyexecute("saltspec$speccal.py",verbose=no)
-pyexecute("saltspec$specsens.py",verbose=no)
-pyexecute("saltspec$specslit.py",verbose=no)
-pyexecute("saltspec$specselfid.py",verbose=no)
-pyexecute("saltspec$specslitnormalize.py",verbose=no)
-
+pyexecute("saltspec$__iraf_init__.py",verbose=no)
 
 package saltspec
 
