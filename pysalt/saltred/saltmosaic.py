@@ -21,7 +21,7 @@ Updates
 20141111   - Added option to replace the masked regions
 """
 
-import os
+import os, sys
 import time
 import numpy
 from scipy import ndimage as nd
@@ -207,7 +207,11 @@ def make_mosaic(struct, gap, xshift, yshift, rotation, interp_type='linear',
         if x1 != 0:
             msg = 'The data in %s have not been trimmed prior to mosaicking.' \
                   % infile
-            log.error(msg)
+            if (log): 
+                log.error(msg)
+            else:
+                print >>sys.stderr, msg
+            
         if xsh[i + 1] < 0:
             x1 += abs(xsh[i + 1] / xbin)
         x2 = x1 + xdsec1[1]
@@ -325,21 +329,22 @@ def make_mosaic(struct, gap, xshift, yshift, rotation, interp_type='linear',
         if (ccd != 2):
 
             if geotran:
-                message = '\nSALTMOSAIC -- geotran ' + tilefile + \
-                    '[' + str(ccd) + '] ' + tranfile[hdu]
-                message += ' \"\" \"\" xshift=' + \
-                    str((xsh[ccd] + (2 - ccd) * dxshift) / xbin) + ' '
-                message += 'yshift=' + \
-                    str(ysh[ccd] / ybin) + ' xrotation=' + str(xrot[ccd]) + ' '
-                message += 'yrotation=' + \
-                    str(yrot[ccd]) + ' xmag=1 ymag=1 xmin=\'INDEF\''
-                message += 'xmax=\'INDEF\' ymin=\'INDEF\' ymax=\'INDEF\' '
-                message += 'ncols=\'INDEF\' '
-                message += 'nlines=\'INDEF\' verbose=\'no\' '
-                message += 'fluxconserve=\'yes\' nxblock=2048 '
-                message += 'nyblock=2048 interpolant=\'' + \
-                    interp_type + '\' boundary=\'constant\' constant=0'
-                log.message(message, with_stdout=verbose)
+                if log:
+                    message = '\nSALTMOSAIC -- geotran ' + tilefile + \
+                        '[' + str(ccd) + '] ' + tranfile[hdu]
+                    message += ' \"\" \"\" xshift=' + \
+                        str((xsh[ccd] + (2 - ccd) * dxshift) / xbin) + ' '
+                    message += 'yshift=' + \
+                        str(ysh[ccd] / ybin) + ' xrotation=' + str(xrot[ccd]) + ' '
+                    message += 'yrotation=' + \
+                        str(yrot[ccd]) + ' xmag=1 ymag=1 xmin=\'INDEF\''
+                    message += 'xmax=\'INDEF\' ymin=\'INDEF\' ymax=\'INDEF\' '
+                    message += 'ncols=\'INDEF\' '
+                    message += 'nlines=\'INDEF\' verbose=\'no\' '
+                    message += 'fluxconserve=\'yes\' nxblock=2048 '
+                    message += 'nyblock=2048 interpolant=\'' + \
+                        interp_type + '\' boundary=\'constant\' constant=0'
+                    log.message(message, with_stdout=verbose)
 
                 yd, xd = tilehdu[ccd].data.shape
                 ncols = 'INDEF'  # ncols=xd+abs(xsh[ccd]/xbin)
@@ -465,9 +470,10 @@ def make_mosaic(struct, gap, xshift, yshift, rotation, interp_type='linear',
                             xrot[ccd], yrot[ccd]))
 
         else:
-            log.message(
-                "Transform CCD #%i using dx=%s, dy=%s, rot=%s" %
-                (ccd, 0, 0, 0), with_stdout=verbose, with_header=False)
+            if (log):
+                log.message(
+                    "Transform CCD #%i using dx=%s, dy=%s, rot=%s" %
+                    (ccd, 0, 0, 0), with_stdout=verbose, with_header=False)
             tranhdu[hdu] = tilehdu[ccd].data
             if varframe:
                 tranhdu[hdu + nccds] = tilehdu[ccd + nccds].data
