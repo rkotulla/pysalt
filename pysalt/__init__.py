@@ -10,3 +10,7 @@ import version
 __version__=version.full_version #'1.0.0' #pysalt.verno
 __revision__=version.git_revision
 
+
+from tools import *
+import mp_logging
+
