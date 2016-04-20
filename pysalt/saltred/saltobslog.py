@@ -61,6 +61,7 @@
 from __future__ import with_statement
 
 import os, glob, time, pyfits
+from astropy.io import fits
 
 import pysalt.lib.saltsafekey as saltkey
 import pysalt.lib.saltsafeio as saltio
@@ -78,8 +79,8 @@ formatList=['32A', '50A', '20A', '100A', '1A', '12A', 'E', 'E', 'E', '10A', '12A
             '12A', 'D', '20A', '20A', '8A', '23A', 'I', '5A', '6A', '4A', '8A', '8A',
             'J', '11A', '11A', '12A', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E',
             'E', 'E', 'E', 'E', 'E', 'E', 'D', 'E', 'E', 'D', '16A'  ]
-rssheaderList=['DEWPRE', 'POSANG', 'LAMPID', 'CALFILT', 'CALND', 'TELRHO', 'PELLICLE', 'INSTPORT', 'CF-STATE', 'SM-STATE', 'SM-STA', 'SM-STEPS', 'SM-VOLTS', 'SM-STA-S', 'SM-STA-V', 'MASKID', 'MASKTYP', 'WP-STATE', 'HWP-CMD', 'HW-STEPS', 'HWP-STA', 'QWP-CMD', 'QW-STEPS', 'QWP-STA', 'QWP-ANG', 'HWP-ANG', 'SH-STATE', 'FO-STATE', 'FO-POS', 'FO-VOLTS', 'FO-POS-S', 'FO-POS-V', 'GR-STATE', 'GR-STA', 'GR-ANGLE', 'GM-STEPS', 'GM-VOLTS', 'GR-STA-S', 'GR-STA-V', 'GR-STEPS', 'GRATING', 'GRTILT', 'BS-STATE', 'FI-STATE', 'FI-STA', 'FM-STEPS', 'FM-VOLTS', 'FM-STA-S', 'FM-STA-V', 'AR-STATE', 'AR-STA', 'CAMANG', 'AR-STA-S', 'AR-ANGLE', 'COLTEMP', 'CAMTEMP', 'PROC', 'PCS-VER']
-rssformatList=['D', 'E', '8A', '8A', 'E', 'E', '8A', '8A', '20A', '20A', '8A', 'J', 'E', 'E', 'E', '16A', '16A', '20A', '16A', 'J', 'E', '16A', 'J', 'E', 'E', 'E', '20A', '20A', 'E', 'E', 'E', 'E', '20A', '10A', 'E', 'J', 'E', 'E', 'E', 'J', '8A', 'E', '24A', '20A', '7A', 'J', 'E', 'E', 'E', '24A', '16A', 'E', 'E', 'E', 'E', 'E', '20A', '4A']
+rssheaderList=['DEWPRE', 'POSANG', 'LAMPID', 'CALFILT', 'CALND', 'TELRHO', 'PELLICLE', 'INSTPORT', 'CF-STATE', 'SM-STATE', 'SM-STA', 'SM-STEPS', 'SM-VOLTS', 'SM-STA-S', 'SM-STA-V', 'MASKID', 'MASKTYP', 'WP-STATE', 'HWP-CMD', 'HW-STEPS', 'HWP-STA', 'QWP-CMD', 'QW-STEPS', 'QWP-STA', 'QWP-ANG', 'HWP-ANG', 'SH-STATE', 'FO-STATE', 'FO-POS', 'FO-VOLTS', 'FO-POS-S', 'FO-POS-V', 'GR-STATE', 'GR-STA', 'GR-ANGLE', 'GM-STEPS', 'GM-VOLTS', 'GR-STA-S', 'GR-STA-V', 'GR-STEPS', 'GRATING', 'GRTILT', 'BS-STATE', 'FI-STATE', 'FI-STA', 'FM-STEPS', 'FM-VOLTS', 'FM-STA-S', 'FM-STA-V', 'AR-STATE', 'AR-STA', 'CAMANG', 'AR-STA-S', 'AR-ANGLE', 'COLTEMP', 'CAMTEMP', 'PROC', 'PCS-VER', 'WPPATERN']
+rssformatList=['D', 'E', '8A', '8A', 'E', 'E', '8A', '8A', '20A', '20A', '8A', 'J', 'E', 'E', 'E', '16A', '16A', '20A', '16A', 'J', 'E', '16A', 'J', 'E', 'E', 'E', '20A', '20A', 'E', 'E', 'E', 'E', '20A', '10A', 'E', 'J', 'E', 'E', 'E', 'J', '8A', 'E', '24A', '20A', '7A', 'J', 'E', 'E', 'E', '24A', '16A', 'E', 'E', 'E', 'E', 'E', '20A', '4A', '20A']
 scamheaderList=['FILPOS']
 scamformatList=['I']
 
@@ -117,24 +118,27 @@ def createobslogfits(headerDict):
    col=[]
    for k, f in zip(headerList, formatList):
        print k,f, headerDict[k]
-       col.append(pyfits.Column(name=k, format=f, array=headerDict[k]))
+       col.append(fits.Column(name=k, format=f, array=headerDict[k]))
    for k, f in zip(scamheaderList, scamformatList):
        print k,f, headerDict[k]
-       col.append(pyfits.Column(name=k, format=f, array=headerDict[k]))
+       col.append(fits.Column(name=k, format=f, array=headerDict[k]))
    for k, f in zip(rssheaderList, rssformatList):
        print k,f, headerDict[k]
-       col.append(pyfits.Column(name=k, format=f, array=headerDict[k]))
+       col.append(fits.Column(name=k, format=f, array=headerDict[k]))
+
    # construct FITS table from columns
-   table = saltio.fitscolumns(col)
+   table = fits.ColDefs(col)
 
    # write FITS table to output file
-   struct=saltio.newfitstable(table)
+   struct = fits.BinTableHDU.from_columns(table)
 
    # name the table extension
-   saltkey.new('EXTNAME','OBSLOG','extension name', struct)
+   struct.header['EXTNAME'] = 'OBSLOG'
+   struct.header['SAL_TLM'] = time.asctime(time.localtime())
+   #saltkey.new('EXTNAME','OBSLOG','extension name', struct)
+   #saltkey.put('SAL-TLM',time.asctime(time.localtime()), struct)
 
    # housekeeping keywords
-   saltkey.put('SAL-TLM',time.asctime(time.localtime()), struct)
 
    return struct
 

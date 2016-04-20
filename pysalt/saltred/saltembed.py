@@ -55,7 +55,9 @@ from __future__ import with_statement
 
 import numpy as np 
 
+
 import os, string, sys, glob, pyfits, time
+from astropy.io import fits
 
 import pysalt.lib.saltsafekey as saltkey
 import pysalt.lib.saltsafeio as saltio
@@ -121,7 +123,7 @@ def embedimage(struct, nccd=2, namps=2, nwindows=1):
     """
 
     #create the output structure
-    outstruct=pyfits.HDUList(struct[0])
+    outstruct=fits.HDUList(struct[0])
 
     #get the total size of the section
     decsect=saltio.getSection(saltkey.get('DETSIZE', struct[0]), iraf_format=True)
@@ -162,7 +164,7 @@ def embedimage(struct, nccd=2, namps=2, nwindows=1):
         #add the correct header information *TODO*   
  
         #append to the hdu list
-        exthdu=pyfits.ImageHDU(extdata[:,0:xmax])
+        exthdu=yfits.ImageHDU(extdata[:,0:xmax])
         outstruct.append(exthdu)
 
 

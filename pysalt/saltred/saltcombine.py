@@ -35,7 +35,10 @@ from __future__ import with_statement
 
 import os
 import numpy as np
+
 import pyfits
+
+from astropy.io import fits
 
 import pysalt.lib.saltsafekey as saltkey
 import pysalt.lib.saltsafeio as saltio
@@ -120,7 +123,7 @@ def imcombine(infiles, method='average', reject=None, mask=True,  weight=True, \
    #read in all of the data
    for infile in infiles:
        #hdu_list.append(saltio.openfits(infile))
-       hdu_list.append(pyfits.open(infile, memmap=True))
+       hdu_list.append(fits.open(infile, memmap=True))
 
    #Copy the first image and create the HDU for the other images
    try:

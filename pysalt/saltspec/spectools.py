@@ -21,11 +21,14 @@ from scipy import interpolate as scint
 from scipy.ndimage.filters import gaussian_filter1d
 from scipy.optimize import minimize
 
-import pysalt.lib.saltsafeio as saltio
-from pysalt.lib.salterror import SaltError
-from pysalt.lib.saltfit import interfit
-
 import WavelengthSolution as WavelengthSolution
+
+from scipy import signal
+from pyraf import iraf
+import saltsafeio as saltio
+from salterror import SaltError
+from saltfit import interfit
+import WavelengthSolution
 
 from PySpectrograph.Spectra import Spectrum, apext, detectlines
 
@@ -65,12 +68,21 @@ def mcentroid(xarr, yarr, kern=default_kernal, xc=None, xdiff=None,
     """
     if xdiff < len(kern):
         xdiff = len(kern)
+
     if xc is not None and xdiff:
         mask = (abs(xarr - xc) < xdiff)
     else:
         mask = np.ones(len(xarr), dtype=bool)
 
-    return detectlines.centroid(xarr, yarr, kern=kern, mask=mask, mode=mode)
+    # convle the input array with the default kernal
+    warr = np.convolve(yarr[mask], kern, mode='same')
+
+    # interpolate the results
+    # imask is used to make sure we are only gettin the
+    # center pixels
+    imask = (abs(xarr[mask]-xarr[mask].mean()) < 3)
+    cx = np.interp(0, warr[imask], xarr[mask][imask])
+    return cx
 
 
 def interpolate(x, x_arr, y_arr, type='interp', order=3, left=None,
@@ -189,17 +201,15 @@ def detect_lines(w_arr, f_arr, sigma=3, bsigma=None, niter=5, mask=None,
         w_arr = w_arr[mask]
 
     # find all peaks
-    peaks = find_peaks(f_arr, sigma, niter, bsigma=bsigma)
-
+    xp = signal.find_peaks_cwt(f_arr, np.array([sigma]))
+    xp = np.array(xp)
+  
     # set the output values
-    xp = w_arr[peaks]
     if center:
         xdiff = int(0.5 * len(kern) + 1)
-        x_arr = np.arange(len(w_arr))
         xp = xp * 1.0
-        for i in range(len(peaks)):
-            cmask = (abs(x_arr - peaks[i]) < xdiff)
-            xp[i] = detectlines.centroid(w_arr, f_arr, kern=kern, mask=cmask)
+        for i in range(len(xp)):
+            xp[i] = mcentroid(w_arr, f_arr, kern=kern, xdiff=xdiff, xc=w_arr[xp[i]])
 
     return xp
 
@@ -510,7 +520,7 @@ def xcorfun(p, xarr, farr, swarr, sfarr, interptype, ws):
     return abs(1.0 / ncor(farr, asfarr))
 
 
-def fitxcor(xarr, farr, swarr, sfarr, ws, interptype='interp', debug=False):
+def fitxcor(xarr, farr, swarr, sfarr, ws, interptype='interp', method='Nelder-Mead'):
     """Maximize the normalized cross correlation coefficient for the full
         wavelength solution
     """
@@ -521,7 +531,7 @@ def fitxcor(xarr, farr, swarr, sfarr, ws, interptype='interp', debug=False):
             ws.x_arr, ws.w_arr, ws.function, ws.order)
         nws.coef.set_coef(ws.coef)
 
-    res = minimize(xcorfun, nws.coef, method='Nelder-Mead',
+    res = minimize(xcorfun, nws.coef, method=method,
                    args=(xarr, farr, swarr, sfarr, interptype, nws))
     bcoef = res['x']
     nws.set_coef(bcoef)
@@ -753,29 +763,8 @@ def readasciilinelist(linelist):
 
 def getslitsize(slitname, config_file=''):
     """Return the slit size for a given slit name"""
-    if slitname.strip() == 'PL0060N001':
-        return 0.6
-    if slitname.strip() == 'PL0100N001':
-        return 1.0
-    if slitname.strip() == 'PL0120P001':
-        return 1.2
-    if slitname.strip() == 'PL0125N001':
-        return 1.25
-    if slitname.strip() == 'PL0150N001':
-        return 1.5
-    if slitname.strip() == 'PL0200N001':
-        return 2.0
-    if slitname.strip() == 'PL0300N001':
-        return 3.0
-    if slitname.strip() == 'PL0400N001':
-        return 4.0
-
-    try:
-        return int(slitname.strip())
-    except:
-        pass
-    msg = 'Assuming a slit size of 1.0'
-    return 1.0
+    slitname=slitname.strip()
+    return float(slitname[2:6])/100.0
 
 
 def makesection(section):
@@ -952,5 +941,5 @@ def boxcar_smooth(spec, smoothwidth):
     # Conserve flux
     kernel /= kernel.sum()
     smoothed = spec.flux.copy()
-    smoothed[(kw / 2):-(kw / 2)] = np.convolve(spec.flux, kernel, mode='valid')
+    smoothed = np.convolve(spec.flux, kernel, mode='same')
     return smoothed

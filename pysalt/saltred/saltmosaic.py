@@ -25,7 +25,10 @@ import os, sys
 import time
 import numpy
 from scipy import ndimage as nd
+
 import pyfits
+
+from astropy.io import fits
 
 from math import cos, sin, pi
 from scipy.ndimage import geometric_transform
@@ -97,15 +100,15 @@ def saltmosaic(images, outimages, outpref, geomfile, interp='linear',
             saltkey.housekeeping(
                 ostruct[0],
                 'SMOSAIC',
-                'Images have been mosaicked ',
+                'Images have been mosaicked',
                 hist)
 
             # write the image out
-            saltio.writefits(ostruct, oimg, clobber=clobber)
+            ostruct.writeto(oimg, clobber=clobber, output_verify='ignore')
 
             # close the files
-            saltio.closefits(struct)
-            saltio.closefits(ostruct)
+            struct.close()
+            ostruct.close()
 
 
 def make_mosaic(struct, gap, xshift, yshift, rotation, interp_type='linear',
@@ -161,8 +164,8 @@ def make_mosaic(struct, gap, xshift, yshift, rotation, interp_type='linear',
         tilehdu = [None] * (3 * int(nsciext / 2) + 1)
     else:
         tilehdu = [None] * int(nsciext / 2 + 1)
-    tilehdu[0] = pyfits.PrimaryHDU()
-    tilehdu[0].header = struct[0].header
+    tilehdu[0] = fits.PrimaryHDU()
+    #tilehdu[0].header = struct[0].header
 
     if log:
         log.message('', with_stdout=verbose)
@@ -248,23 +251,23 @@ def make_mosaic(struct, gap, xshift, yshift, rotation, interp_type='linear',
         naxis2 = str(ydsec1[1])
 
         # add image and keywords to HDU list
-        tilehdu[i + 1] = pyfits.ImageHDU(outdata)
+        tilehdu[i + 1] = fits.ImageHDU(outdata)
         tilehdu[i + 1].header = struct[hdu].header
-        tilehdu[
-            i + 1].header['DATASEC'] = '[1:' + naxis1 + ',1:' + naxis2 + ']'
+        #tilehdu[
+        #    i + 1].header['DATASEC'] = '[1:' + naxis1 + ',1:' + naxis2 + ']'
 
         if varframe:
             vext = i + 1 + int(nsciext / 2.)
-            tilehdu[vext] = pyfits.ImageHDU(vardata)
-            tilehdu[vext].header = struct[struct[hdu].header['VAREXT']].header
-            tilehdu[vext].header[
-                'DATASEC'] = '[1:' + naxis1 + ',1:' + naxis2 + ']'
+            tilehdu[vext] = fits.ImageHDU(vardata)
+            #tilehdu[vext].header = struct[struct[hdu].header['VAREXT']].header
+            #tilehdu[vext].header[
+            #    'DATASEC'] = '[1:' + naxis1 + ',1:' + naxis2 + ']'
 
             bext = i + 1 + 2 * int(nsciext / 2.)
-            tilehdu[bext] = pyfits.ImageHDU(bpmdata)
-            tilehdu[bext].header = struct[struct[hdu].header['BPMEXT']].header
-            tilehdu[bext].header[
-                'DATASEC'] = '[1:' + naxis1 + ',1:' + naxis2 + ']'
+            tilehdu[bext] = fits.ImageHDU(bpmdata)
+            #tilehdu[bext].header = struct[struct[hdu].header['BPMEXT']].header
+            #tilehdu[bext].header[
+            #    'DATASEC'] = '[1:' + naxis1 + ',1:' + naxis2 + ']'
 
         # image tile log message #1
         if log:
@@ -285,7 +288,7 @@ def make_mosaic(struct, gap, xshift, yshift, rotation, interp_type='linear',
             log.message(message, with_stdout=verbose, with_header=False)
 
     # write temporary file of tiled CCDs
-    hdulist = pyfits.HDUList(tilehdu)
+    hdulist = fits.HDUList(tilehdu)
     hdulist.writeto(tilefile)
 
     # iterate over CCDs, transform and rotate images
@@ -405,20 +408,20 @@ def make_mosaic(struct, gap, xshift, yshift, rotation, interp_type='linear',
                                                 constant=0)
 
                 # open the file and copy the data to tranhdu
-                tstruct = pyfits.open(tranfile[hdu])
+                tstruct = fits.open(tranfile[hdu])
                 tranhdu[hdu] = tstruct[0].data
                 tstruct.close()
                 if varframe:
                     tranhdu[
                         hdu +
-                        nccds] = pyfits.open(
+                        nccds] = fits.open(
                         tranfile[
                             hdu +
                             nccds])[0].data
                     tranhdu[
                         hdu +
                         2 *
-                        nccds] = pyfits.open(
+                        nccds] = fits.open(
                         tranfile[
                             hdu +
                             2 *
@@ -447,7 +450,7 @@ def make_mosaic(struct, gap, xshift, yshift, rotation, interp_type='linear',
                         1,
                         xrot[ccd],
                         yrot[ccd]))
-                tstruct = pyfits.PrimaryHDU(tranhdu[hdu])
+                tstruct = fits.PrimaryHDU(tranhdu[hdu])
                 tstruct.writeto(tranfile[hdu])
                 if varframe:
                     tranhdu[hdu + nccds] = geometric_transform(
@@ -485,8 +488,10 @@ def make_mosaic(struct, gap, xshift, yshift, rotation, interp_type='linear',
     else:
         outlist = 2 * [None]
 
-    # outstruct[0] = pyfits.PrimaryHDU()
-    outlist[0] = struct[0].copy()
+    #outlist[0] = struct[0].copy()
+    outlist[0] = fits.PrimaryHDU()
+    outlist[0].header = struct[0].header
+
     naxis1 = int(gap / xbin * (nccds - 1))
     naxis2 = 0
     for i in range(1, nccds + 1):
@@ -529,18 +534,18 @@ def make_mosaic(struct, gap, xshift, yshift, rotation, interp_type='linear',
     # fill in the gaps if requested
     if fill:
         if varframe:
-            outdata = fill_gaps(outdata, bpmdata)
+            outdata = fill_gaps(outdata, 0)
         else:
             outdata = fill_gaps(outdata, 0)
 
     # add to the file
-    outlist[1] = pyfits.ImageHDU(outdata)
+    outlist[1] = fits.ImageHDU(outdata)
     if varframe:
-        outlist[2] = pyfits.ImageHDU(vardata)
-        outlist[3] = pyfits.ImageHDU(bpmdata)
+        outlist[2] = fits.ImageHDU(vardata)
+        outlist[3] = fits.ImageHDU(bpmdata)
 
     # create the image structure
-    outstruct = pyfits.HDUList(outlist)
+    outstruct = fits.HDUList(outlist)
 
     # update the head informaation
     # housekeeping keywords
@@ -557,14 +562,15 @@ def make_mosaic(struct, gap, xshift, yshift, rotation, interp_type='linear',
         pass
 
     # Add keywords associated with geometry
-    gstr = '%i %f %f %f %f %f %f' % (gap,
-                                     xshift[0],
+    saltkey.new('SGEOMGAP', gap, 'SALT Chip Gap', outstruct[0])
+    c1str = '{:3.2f} {:3.2f} {:3.4f}'.format(xshift[0],
                                      yshift[0],
-                                     rotation[0],
-                                     xshift[1],
+                                     rotation[0])
+    saltkey.new('SGEOM1', c1str, 'SALT Chip 1 Transform', outstruct[0])
+    c2str = '{:3.2f} {:3.2f} {:3.4f}'.format(xshift[1],
                                      yshift[1],
                                      rotation[1])
-    saltkey.new('SALTGEOM', gstr, 'SALT geometry coefficients', outstruct[0])
+    saltkey.new('SGEOM2', c2str, 'SALT Chip 2 Transform', outstruct[0])
 
     # WCS keywords
     saltkey.new('CRPIX1', 0, 'WCS: X reference pixel', outstruct[1])
@@ -618,8 +624,9 @@ def fill_gaps(data, mask):
             rdata = data[i, :]
             rmask = mask[i, :]
             rmask = nd.minimum_filter(rmask, size=3)
-            rdata = numpy.interp(x, x[rmask], rdata[rmask])
-            data[i, rmask == 0] = rdata[rmask == 0]
+            if rmask.any() == True:
+                rdata = numpy.interp(x, x[rmask], rdata[rmask])
+                data[i, rmask == 0] = rdata[rmask == 0]
     else:
         mask = (data != mask)
         for i in range(ys):
@@ -627,8 +634,9 @@ def fill_gaps(data, mask):
             rdata = data[i, :]
             rmask = mask[i, :]
             rmask = nd.minimum_filter(rmask, size=3)
-            rdata = numpy.interp(x, x[rmask], rdata[rmask])
-            data[i, rmask == 0] = rdata[rmask == 0]
+            if rmask.any() == True:
+                rdata = numpy.interp(x, x[rmask], rdata[rmask])
+                data[i, rmask == 0] = rdata[rmask == 0]
 
     return data
 

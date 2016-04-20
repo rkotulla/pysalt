@@ -60,7 +60,7 @@ from __future__ import with_statement
 
 import sys,glob, os, shutil, time
 import numpy as np
-import pyfits
+from astropy.io import fits
 
 from saltobslog import obslog, createobslogfits
 from saltprepare import prepare
@@ -148,7 +148,7 @@ def saltclean(images, outpath, obslogfile=None, gaindb=None,xtalkfile=None,
        for img in infiles:
            if os.path.basename(img) in biaslist:
                #open the image
-               struct=pyfits.open(img)
+               struct=fits.open(img)
                bimg=outpath+'bxgp'+os.path.basename(img)
 
                #print the message
@@ -196,7 +196,7 @@ def saltclean(images, outpath, obslogfile=None, gaindb=None,xtalkfile=None,
        for img in infiles:
            if os.path.basename(img) in flatlist:
                #open the image
-               struct=pyfits.open(img)
+               struct=fits.open(img)
                fimg=outpath+'bxgp'+os.path.basename(img)
 
                #print the message
@@ -242,7 +242,7 @@ def saltclean(images, outpath, obslogfile=None, gaindb=None,xtalkfile=None,
            #print nimg, nimg in flatlist, nimg in biaslist
            if not (nimg in biaslist):
                #open the image
-               struct=pyfits.open(img)
+               struct=fits.open(img)
                simg=outpath+'bxgp'+os.path.basename(img)
 
                #print the message
