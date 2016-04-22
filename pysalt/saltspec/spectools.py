@@ -23,11 +23,12 @@ from scipy.optimize import minimize
 
 import WavelengthSolution as WavelengthSolution
 
+
 from scipy import signal
-from pyraf import iraf
-import saltsafeio as saltio
-from salterror import SaltError
-from saltfit import interfit
+#from pyraf import iraf
+import pysalt.lib.saltsafeio as saltio
+from pysalt.lib.salterror import SaltError
+from pysalt.lib.saltfit import interfit
 import WavelengthSolution
 
 from PySpectrograph.Spectra import Spectrum, apext, detectlines

@@ -1,7 +1,7 @@
 
 import pysalt
 import os, sys
-import pyfits
+from astropy.io import fits
 
 def get_data_filename(filepart):
 
@@ -28,22 +28,23 @@ def clobberfile(filename):
 def get_binning(file_or_hdu):
     
     ccdsum = None
+    print "GET BINNING:", type(file_or_hdu)
 
-    if (type(file_or_hdu) == pyfits.hdu.hdulist.HDUList):
+    if (type(file_or_hdu) == fits.hdu.hdulist.HDUList):
         if ('CCDSUM' in file_or_hdu[0].header):
             ccdsum = file_or_hdu[0].header['CCDSUM']
 
-    elif (type(file_or_hdu) in (pyfits.hdu.image.PrimaryHDU,
-                                pyfits.hdu.image.ImageHDU)):
+    elif (type(file_or_hdu) in (fits.hdu.image.PrimaryHDU,
+                                fits.hdu.image.ImageHDU)):
         if ('CCDSUM' in file_or_hdu.header):
             ccdsum = file_or_hdu.header['CCDSUM']
 
-    elif (type(file_or_hdu) == pyfits.header.Header):
+    elif (type(file_or_hdu) == fits.header.Header):
         if ('CCDSUM' in file_or_hdu):
             ccdsum = file_or_hdu['CCDSUM']
 
     elif (type(file_or_hdu) == str):
-        hdu = pyfits.open(file_or_hdu)
+        hdu = fits.open(file_or_hdu)
         if ('CCDSUM' in hdu[0].header):
             ccdsum = hdu[0].header['CCDSUM']
 

@@ -43,7 +43,7 @@ from __future__ import with_statement
 
 import numpy as np 
 
-import os, string, sys, glob, pyfits, time
+import os, string, sys, glob, time
 from astropy.io import fits
 
 

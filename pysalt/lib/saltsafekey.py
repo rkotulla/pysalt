@@ -265,13 +265,8 @@ def copy(new,old,key):
 
     if found(key,old):
         try:
-<<<<<<< HEAD:pysalt/lib/saltsafekey.py
             (oldkey,value,comment) = old.header.cards[key]
             new.header[key] = (value, comment)
-=======
-            oldcard=old.header.ascardlist()
-            new.header[key] = (old.header[key],oldcard[key].comment)
->>>>>>> upstream/master:lib/saltsafekey.py
         except:
             raise SaltIOError('Cannot COPY KEYWORD '+key)
 
